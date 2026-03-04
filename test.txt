@@ -1,0 +1,31 @@
+BeginProject
+%% Ceci est un commentaire sur une seule ligne
+Setup:
+define y:float;
+define a | b | c: integer;
+define d : integer = 10;
+const e:integer=(+5);
+
+define tab_1 : [float ;15] ;
+
+Run:
+{
+a <- 15;
+if (a +2 > b) then:
+{
+z <- j - 5.5;
+} else{ z <- z-1 ;
+} endIf ;
+
+loop while (x<10)
+{ x <-x + 1;
+} endloop;
+
+for i in 1 to 10 {
+a <- j * i;
+}
+endfor;
+in(username) ;
+out(username);
+}
+EndProject ;
