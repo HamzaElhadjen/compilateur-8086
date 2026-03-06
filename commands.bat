@@ -1,3 +1,4 @@
 flex lexical.l
-gcc lex.yy.c -lfl -o Lexer
-Lexer.exe<test.txt
+bison -d syntax.y
+gcc lex.yy.c syntax.tab.c -lfl -o lexical
+lexical.exe<test.txt

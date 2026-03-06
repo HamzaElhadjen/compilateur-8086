@@ -1,7 +1,7 @@
 BeginProject
 %% Ceci est un commentaire sur une seule ligne
 Setup:
-define y:float;
+define y_123456789153:float;
 define a | b | c: integer;
 define d : integer = 10;
 const e:integer=(+5);
