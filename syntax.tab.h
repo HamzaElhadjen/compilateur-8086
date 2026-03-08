@@ -39,9 +39,54 @@
    /* Put the tokens into the symbol table, so that GDB and other debuggers
       know about them.  */
    enum yytokentype {
-     entier = 258,
-     reel = 259,
-     idf = 260
+     mc_BeginProject = 258,
+     mc_EndProject = 259,
+     mc_Setup = 260,
+     mc_Run = 261,
+     mc_define = 262,
+     mc_const = 263,
+     mc_if = 264,
+     mc_then = 265,
+     mc_else = 266,
+     mc_endIf = 267,
+     mc_loopwhile = 268,
+     mc_endloop = 269,
+     mc_for = 270,
+     mc_in = 271,
+     mc_to = 272,
+     mc_endfor = 273,
+     mc_out = 274,
+     mc_AND = 275,
+     mc_OR = 276,
+     mc_NON = 277,
+     PVG = 278,
+     DPT = 279,
+     PIPE = 280,
+     ACCO = 281,
+     ACCF = 282,
+     CROV = 283,
+     CRMF = 284,
+     PARO = 285,
+     PARF = 286,
+     AFF = 287,
+     PLUS = 288,
+     MINS = 289,
+     MULT = 290,
+     DIV = 291,
+     LEQ = 292,
+     GEQ = 293,
+     LT = 294,
+     GT = 295,
+     EQ = 296,
+     NEQ = 297,
+     EGAL = 298,
+     IDF = 299,
+     mc_integer = 300,
+     mc_float = 301,
+     CST_INT = 302,
+     CST_FLOAT = 303,
+     CHAINE = 304,
+     UMINUS = 305
    };
 #endif
 
@@ -52,16 +97,16 @@ typedef union YYSTYPE
 {
 
 /* Line 1676 of yacc.c  */
-#line 9 "syntax.y"
+#line 14 "syntax.y"
 
-    int integer;
-    float real;
+    int entier;
+    float numvrg;
     char* str;
 
 
 
 /* Line 1676 of yacc.c  */
-#line 65 "syntax.tab.h"
+#line 110 "syntax.tab.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */

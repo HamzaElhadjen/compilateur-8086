@@ -66,7 +66,6 @@ void Rechercher(char entite[], char code[], char type[], char val[], int y) {
         start = h;
             while(TS[h].state != 0) {
                 if(strcmp(TS[h].name, entite) == 0) {
-                    printf(">>>> L'entite %s existe deja dans TS\n", entite);
                     return;
                 }
                 h = (h + 1) % 200;
@@ -83,7 +82,6 @@ void Rechercher(char entite[], char code[], char type[], char val[], int y) {
         start = h;
             while(tabM[h].state != 0) {
                 if(strcmp(tabM[h].name, entite) == 0) {
-                    printf(">>>> L'entite %s existe deja dans tabM\n", entite);
                     return;
                 }
                 h = (h + 1) % 50;
@@ -100,7 +98,6 @@ void Rechercher(char entite[], char code[], char type[], char val[], int y) {
         start = h;
             while(tabS[h].state != 0) {
                 if(strcmp(tabS[h].name, entite) == 0) {
-                    printf(">>>> L'entite %s existe deja dans tabS\n", entite);
                     return;
                 }
                 h = (h + 1) % 50;
@@ -152,4 +149,37 @@ void afficher()
             printf("\t |%10s |%12s | \n", tabS[i].name, tabS[i].code); 
         }
     }
+}
+
+// Semantique
+
+int checkDeclared(char *name) {
+        if (rechercherIdf(name) == -1) return -1;
+        return 0;
+    }
+
+int checkNoDuplicate(char *name) {
+        int pos = rechercherIdf(name);
+        if (pos != -1 && strcmp(TS[pos].code, "IDF") != 0) return -1;
+        return 0;
+    }
+int rechercherIdf(char entite[]) {
+    int i;
+    for (i = 0; i < 200; i++)
+        if (TS[i].state == 1 && strcmp(entite, TS[i].name) == 0)
+            return i;
+    return -1;
+}
+
+
+void updateType(char entite[], char type[]) {
+    int i = rechercherIdf(entite);
+    if (i != -1) strcpy(TS[i].type, type);
+}
+
+
+
+void updateCode(char entite[], char code[]) {
+    int i = rechercherIdf(entite);
+    if (i != -1) strcpy(TS[i].code, code);
 }

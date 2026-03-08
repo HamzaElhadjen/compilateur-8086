@@ -1,0 +1,2084 @@
+State 14 conflicts: 1 shift/reduce
+State 132 conflicts: 1 shift/reduce
+State 133 conflicts: 1 shift/reduce
+
+
+Grammar
+
+    0 $accept: PROGRAMME $end
+
+    1 PROGRAMME: mc_BeginProject IDF PVG mc_Setup DPT PARTIE_DEC mc_Run DPT ACCO PARTIE_INSTR ACCF mc_EndProject PVG
+
+    2 PARTIE_DEC: LISTE_DEC
+    3           | /* empty */
+
+    4 LISTE_DEC: LISTE_DEC DECLARATION
+    5          | DECLARATION
+
+    6 DECLARATION: mc_define DECL_DEFINE
+    7            | DEC_CONST
+
+    8 DECL_DEFINE: LISTE_IDF DPT TYPE PVG
+    9            | LISTE_IDF DPT TYPE EGAL VALEUR PVG
+   10            | IDF DPT CROV TYPE PVG CST_INT CRMF PVG
+
+   11 LISTE_IDF: LISTE_IDF PIPE IDF_DECL
+   12          | IDF_DECL
+
+   13 IDF_DECL: IDF
+
+   14 TYPE: mc_integer
+   15     | mc_float
+
+   16 VALEUR: CST_INT
+   17       | CST_FLOAT
+   18       | PARO PLUS CST_INT PARF
+   19       | PARO MINS CST_INT PARF
+   20       | PARO PLUS CST_FLOAT PARF
+   21       | PARO MINS CST_FLOAT PARF
+
+   22 DEC_CONST: mc_const IDF DPT TYPE EGAL VALEUR PVG
+
+   23 PARTIE_INSTR: LISTE_INSTR
+   24             | /* empty */
+
+   25 LISTE_INSTR: LISTE_INSTR INSTRUCTION
+   26            | INSTRUCTION
+
+   27 INSTRUCTION: INST_AFF
+   28            | INST_COND
+   29            | INST_LOOP_WHILE
+   30            | INST_FOR
+   31            | INST_IN
+   32            | INST_OUT
+
+   33 INST_AFF: IDF AFF EXPR PVG
+   34         | IDF CROV EXPR CRMF AFF EXPR PVG
+
+   35 INST_COND: mc_if PARO COND PARF mc_then DPT ACCO PARTIE_INSTR ACCF mc_else ACCO PARTIE_INSTR ACCF mc_endIf PVG
+   36          | mc_if PARO COND PARF mc_then DPT ACCO PARTIE_INSTR ACCF mc_endIf PVG
+
+   37 INST_LOOP_WHILE: mc_loopwhile PARO COND PARF ACCO PARTIE_INSTR ACCF mc_endloop PVG
+
+   38 INST_FOR: mc_for IDF mc_in VALEUR mc_to VALEUR ACCO PARTIE_INSTR ACCF mc_endfor PVG
+
+   39 INST_IN: mc_in PARO IDF PARF PVG
+
+   40 INST_OUT: mc_out PARO LISTE_OUT PARF PVG
+
+   41 LISTE_OUT: LISTE_OUT PIPE OUT_ARG
+   42          | OUT_ARG
+
+   43 OUT_ARG: CHAINE
+   44        | EXPR
+
+   45 EXPR: EXPR PLUS EXPR
+   46     | EXPR MINS EXPR
+   47     | EXPR MULT EXPR
+   48     | EXPR DIV EXPR
+   49     | MINS EXPR
+   50     | PARO EXPR PARF
+   51     | IDF
+   52     | IDF CROV EXPR CRMF
+   53     | CST_INT
+   54     | CST_FLOAT
+   55     | PARO PLUS CST_INT PARF
+   56     | PARO MINS CST_INT PARF
+   57     | PARO PLUS CST_FLOAT PARF
+   58     | PARO MINS CST_FLOAT PARF
+
+   59 COND: EXPR LT EXPR
+   60     | EXPR GT EXPR
+   61     | EXPR LEQ EXPR
+   62     | EXPR GEQ EXPR
+   63     | EXPR EQ EXPR
+   64     | EXPR NEQ EXPR
+   65     | PARO COND mc_AND COND PARF
+   66     | PARO COND mc_OR COND PARF
+   67     | mc_NON PARO COND PARF
+   68     | PARO COND PARF
+
+
+Terminals, with rules where they appear
+
+$end (0) 0
+error (256)
+mc_BeginProject (258) 1
+mc_EndProject (259) 1
+mc_Setup (260) 1
+mc_Run (261) 1
+mc_define (262) 6
+mc_const (263) 22
+mc_if (264) 35 36
+mc_then (265) 35 36
+mc_else (266) 35
+mc_endIf (267) 35 36
+mc_loopwhile (268) 37
+mc_endloop (269) 37
+mc_for (270) 38
+mc_in (271) 38 39
+mc_to (272) 38
+mc_endfor (273) 38
+mc_out (274) 40
+mc_AND (275) 65
+mc_OR (276) 66
+mc_NON (277) 67
+PVG (278) 1 8 9 10 22 33 34 35 36 37 38 39 40
+DPT (279) 1 8 9 10 22 35 36
+PIPE (280) 11 41
+ACCO (281) 1 35 36 37 38
+ACCF (282) 1 35 36 37 38
+CROV (283) 10 34 52
+CRMF (284) 10 34 52
+PARO (285) 18 19 20 21 35 36 37 39 40 50 55 56 57 58 65 66 67 68
+PARF (286) 18 19 20 21 35 36 37 39 40 50 55 56 57 58 65 66 67 68
+AFF (287) 33 34
+PLUS (288) 18 20 45 55 57
+MINS (289) 19 21 46 49 56 58
+MULT (290) 47
+DIV (291) 48
+LEQ (292) 61
+GEQ (293) 62
+LT (294) 59
+GT (295) 60
+EQ (296) 63
+NEQ (297) 64
+EGAL (298) 9 22
+IDF (299) 1 10 13 22 33 34 38 39 51 52
+mc_integer (300) 14
+mc_float (301) 15
+CST_INT (302) 10 16 18 19 53 55 56
+CST_FLOAT (303) 17 20 21 54 57 58
+CHAINE (304) 43
+UMINUS (305)
+
+
+Nonterminals, with rules where they appear
+
+$accept (51)
+    on left: 0
+PROGRAMME (52)
+    on left: 1, on right: 0
+PARTIE_DEC (53)
+    on left: 2 3, on right: 1
+LISTE_DEC (54)
+    on left: 4 5, on right: 2 4
+DECLARATION (55)
+    on left: 6 7, on right: 4 5
+DECL_DEFINE (56)
+    on left: 8 9 10, on right: 6
+LISTE_IDF (57)
+    on left: 11 12, on right: 8 9 11
+IDF_DECL (58)
+    on left: 13, on right: 11 12
+TYPE (59)
+    on left: 14 15, on right: 8 9 10 22
+VALEUR (60)
+    on left: 16 17 18 19 20 21, on right: 9 22 38
+DEC_CONST (61)
+    on left: 22, on right: 7
+PARTIE_INSTR (62)
+    on left: 23 24, on right: 1 35 36 37 38
+LISTE_INSTR (63)
+    on left: 25 26, on right: 23 25
+INSTRUCTION (64)
+    on left: 27 28 29 30 31 32, on right: 25 26
+INST_AFF (65)
+    on left: 33 34, on right: 27
+INST_COND (66)
+    on left: 35 36, on right: 28
+INST_LOOP_WHILE (67)
+    on left: 37, on right: 29
+INST_FOR (68)
+    on left: 38, on right: 30
+INST_IN (69)
+    on left: 39, on right: 31
+INST_OUT (70)
+    on left: 40, on right: 32
+LISTE_OUT (71)
+    on left: 41 42, on right: 40 41
+OUT_ARG (72)
+    on left: 43 44, on right: 41 42
+EXPR (73)
+    on left: 45 46 47 48 49 50 51 52 53 54 55 56 57 58, on right: 33
+    34 44 45 46 47 48 49 50 52 59 60 61 62 63 64
+COND (74)
+    on left: 59 60 61 62 63 64 65 66 67 68, on right: 35 36 37 65 66
+    67 68
+
+
+state 0
+
+    0 $accept: . PROGRAMME $end
+
+    mc_BeginProject  shift, and go to state 1
+
+    PROGRAMME  go to state 2
+
+
+state 1
+
+    1 PROGRAMME: mc_BeginProject . IDF PVG mc_Setup DPT PARTIE_DEC mc_Run DPT ACCO PARTIE_INSTR ACCF mc_EndProject PVG
+
+    IDF  shift, and go to state 3
+
+
+state 2
+
+    0 $accept: PROGRAMME . $end
+
+    $end  shift, and go to state 4
+
+
+state 3
+
+    1 PROGRAMME: mc_BeginProject IDF . PVG mc_Setup DPT PARTIE_DEC mc_Run DPT ACCO PARTIE_INSTR ACCF mc_EndProject PVG
+
+    PVG  shift, and go to state 5
+
+
+state 4
+
+    0 $accept: PROGRAMME $end .
+
+    $default  accept
+
+
+state 5
+
+    1 PROGRAMME: mc_BeginProject IDF PVG . mc_Setup DPT PARTIE_DEC mc_Run DPT ACCO PARTIE_INSTR ACCF mc_EndProject PVG
+
+    mc_Setup  shift, and go to state 6
+
+
+state 6
+
+    1 PROGRAMME: mc_BeginProject IDF PVG mc_Setup . DPT PARTIE_DEC mc_Run DPT ACCO PARTIE_INSTR ACCF mc_EndProject PVG
+
+    DPT  shift, and go to state 7
+
+
+state 7
+
+    1 PROGRAMME: mc_BeginProject IDF PVG mc_Setup DPT . PARTIE_DEC mc_Run DPT ACCO PARTIE_INSTR ACCF mc_EndProject PVG
+
+    mc_define  shift, and go to state 8
+    mc_const   shift, and go to state 9
+
+    $default  reduce using rule 3 (PARTIE_DEC)
+
+    PARTIE_DEC   go to state 10
+    LISTE_DEC    go to state 11
+    DECLARATION  go to state 12
+    DEC_CONST    go to state 13
+
+
+state 8
+
+    6 DECLARATION: mc_define . DECL_DEFINE
+
+    IDF  shift, and go to state 14
+
+    DECL_DEFINE  go to state 15
+    LISTE_IDF    go to state 16
+    IDF_DECL     go to state 17
+
+
+state 9
+
+   22 DEC_CONST: mc_const . IDF DPT TYPE EGAL VALEUR PVG
+
+    IDF  shift, and go to state 18
+
+
+state 10
+
+    1 PROGRAMME: mc_BeginProject IDF PVG mc_Setup DPT PARTIE_DEC . mc_Run DPT ACCO PARTIE_INSTR ACCF mc_EndProject PVG
+
+    mc_Run  shift, and go to state 19
+
+
+state 11
+
+    2 PARTIE_DEC: LISTE_DEC .
+    4 LISTE_DEC: LISTE_DEC . DECLARATION
+
+    mc_define  shift, and go to state 8
+    mc_const   shift, and go to state 9
+
+    $default  reduce using rule 2 (PARTIE_DEC)
+
+    DECLARATION  go to state 20
+    DEC_CONST    go to state 13
+
+
+state 12
+
+    5 LISTE_DEC: DECLARATION .
+
+    $default  reduce using rule 5 (LISTE_DEC)
+
+
+state 13
+
+    7 DECLARATION: DEC_CONST .
+
+    $default  reduce using rule 7 (DECLARATION)
+
+
+state 14
+
+   10 DECL_DEFINE: IDF . DPT CROV TYPE PVG CST_INT CRMF PVG
+   13 IDF_DECL: IDF .
+
+    DPT  shift, and go to state 21
+
+    DPT       [reduce using rule 13 (IDF_DECL)]
+    $default  reduce using rule 13 (IDF_DECL)
+
+
+state 15
+
+    6 DECLARATION: mc_define DECL_DEFINE .
+
+    $default  reduce using rule 6 (DECLARATION)
+
+
+state 16
+
+    8 DECL_DEFINE: LISTE_IDF . DPT TYPE PVG
+    9            | LISTE_IDF . DPT TYPE EGAL VALEUR PVG
+   11 LISTE_IDF: LISTE_IDF . PIPE IDF_DECL
+
+    DPT   shift, and go to state 22
+    PIPE  shift, and go to state 23
+
+
+state 17
+
+   12 LISTE_IDF: IDF_DECL .
+
+    $default  reduce using rule 12 (LISTE_IDF)
+
+
+state 18
+
+   22 DEC_CONST: mc_const IDF . DPT TYPE EGAL VALEUR PVG
+
+    DPT  shift, and go to state 24
+
+
+state 19
+
+    1 PROGRAMME: mc_BeginProject IDF PVG mc_Setup DPT PARTIE_DEC mc_Run . DPT ACCO PARTIE_INSTR ACCF mc_EndProject PVG
+
+    DPT  shift, and go to state 25
+
+
+state 20
+
+    4 LISTE_DEC: LISTE_DEC DECLARATION .
+
+    $default  reduce using rule 4 (LISTE_DEC)
+
+
+state 21
+
+   10 DECL_DEFINE: IDF DPT . CROV TYPE PVG CST_INT CRMF PVG
+
+    CROV  shift, and go to state 26
+
+
+state 22
+
+    8 DECL_DEFINE: LISTE_IDF DPT . TYPE PVG
+    9            | LISTE_IDF DPT . TYPE EGAL VALEUR PVG
+
+    mc_integer  shift, and go to state 27
+    mc_float    shift, and go to state 28
+
+    TYPE  go to state 29
+
+
+state 23
+
+   11 LISTE_IDF: LISTE_IDF PIPE . IDF_DECL
+
+    IDF  shift, and go to state 30
+
+    IDF_DECL  go to state 31
+
+
+state 24
+
+   22 DEC_CONST: mc_const IDF DPT . TYPE EGAL VALEUR PVG
+
+    mc_integer  shift, and go to state 27
+    mc_float    shift, and go to state 28
+
+    TYPE  go to state 32
+
+
+state 25
+
+    1 PROGRAMME: mc_BeginProject IDF PVG mc_Setup DPT PARTIE_DEC mc_Run DPT . ACCO PARTIE_INSTR ACCF mc_EndProject PVG
+
+    ACCO  shift, and go to state 33
+
+
+state 26
+
+   10 DECL_DEFINE: IDF DPT CROV . TYPE PVG CST_INT CRMF PVG
+
+    mc_integer  shift, and go to state 27
+    mc_float    shift, and go to state 28
+
+    TYPE  go to state 34
+
+
+state 27
+
+   14 TYPE: mc_integer .
+
+    $default  reduce using rule 14 (TYPE)
+
+
+state 28
+
+   15 TYPE: mc_float .
+
+    $default  reduce using rule 15 (TYPE)
+
+
+state 29
+
+    8 DECL_DEFINE: LISTE_IDF DPT TYPE . PVG
+    9            | LISTE_IDF DPT TYPE . EGAL VALEUR PVG
+
+    PVG   shift, and go to state 35
+    EGAL  shift, and go to state 36
+
+
+state 30
+
+   13 IDF_DECL: IDF .
+
+    $default  reduce using rule 13 (IDF_DECL)
+
+
+state 31
+
+   11 LISTE_IDF: LISTE_IDF PIPE IDF_DECL .
+
+    $default  reduce using rule 11 (LISTE_IDF)
+
+
+state 32
+
+   22 DEC_CONST: mc_const IDF DPT TYPE . EGAL VALEUR PVG
+
+    EGAL  shift, and go to state 37
+
+
+state 33
+
+    1 PROGRAMME: mc_BeginProject IDF PVG mc_Setup DPT PARTIE_DEC mc_Run DPT ACCO . PARTIE_INSTR ACCF mc_EndProject PVG
+
+    mc_if         shift, and go to state 38
+    mc_loopwhile  shift, and go to state 39
+    mc_for        shift, and go to state 40
+    mc_in         shift, and go to state 41
+    mc_out        shift, and go to state 42
+    IDF           shift, and go to state 43
+
+    $default  reduce using rule 24 (PARTIE_INSTR)
+
+    PARTIE_INSTR     go to state 44
+    LISTE_INSTR      go to state 45
+    INSTRUCTION      go to state 46
+    INST_AFF         go to state 47
+    INST_COND        go to state 48
+    INST_LOOP_WHILE  go to state 49
+    INST_FOR         go to state 50
+    INST_IN          go to state 51
+    INST_OUT         go to state 52
+
+
+state 34
+
+   10 DECL_DEFINE: IDF DPT CROV TYPE . PVG CST_INT CRMF PVG
+
+    PVG  shift, and go to state 53
+
+
+state 35
+
+    8 DECL_DEFINE: LISTE_IDF DPT TYPE PVG .
+
+    $default  reduce using rule 8 (DECL_DEFINE)
+
+
+state 36
+
+    9 DECL_DEFINE: LISTE_IDF DPT TYPE EGAL . VALEUR PVG
+
+    PARO       shift, and go to state 54
+    CST_INT    shift, and go to state 55
+    CST_FLOAT  shift, and go to state 56
+
+    VALEUR  go to state 57
+
+
+state 37
+
+   22 DEC_CONST: mc_const IDF DPT TYPE EGAL . VALEUR PVG
+
+    PARO       shift, and go to state 54
+    CST_INT    shift, and go to state 55
+    CST_FLOAT  shift, and go to state 56
+
+    VALEUR  go to state 58
+
+
+state 38
+
+   35 INST_COND: mc_if . PARO COND PARF mc_then DPT ACCO PARTIE_INSTR ACCF mc_else ACCO PARTIE_INSTR ACCF mc_endIf PVG
+   36          | mc_if . PARO COND PARF mc_then DPT ACCO PARTIE_INSTR ACCF mc_endIf PVG
+
+    PARO  shift, and go to state 59
+
+
+state 39
+
+   37 INST_LOOP_WHILE: mc_loopwhile . PARO COND PARF ACCO PARTIE_INSTR ACCF mc_endloop PVG
+
+    PARO  shift, and go to state 60
+
+
+state 40
+
+   38 INST_FOR: mc_for . IDF mc_in VALEUR mc_to VALEUR ACCO PARTIE_INSTR ACCF mc_endfor PVG
+
+    IDF  shift, and go to state 61
+
+
+state 41
+
+   39 INST_IN: mc_in . PARO IDF PARF PVG
+
+    PARO  shift, and go to state 62
+
+
+state 42
+
+   40 INST_OUT: mc_out . PARO LISTE_OUT PARF PVG
+
+    PARO  shift, and go to state 63
+
+
+state 43
+
+   33 INST_AFF: IDF . AFF EXPR PVG
+   34         | IDF . CROV EXPR CRMF AFF EXPR PVG
+
+    CROV  shift, and go to state 64
+    AFF   shift, and go to state 65
+
+
+state 44
+
+    1 PROGRAMME: mc_BeginProject IDF PVG mc_Setup DPT PARTIE_DEC mc_Run DPT ACCO PARTIE_INSTR . ACCF mc_EndProject PVG
+
+    ACCF  shift, and go to state 66
+
+
+state 45
+
+   23 PARTIE_INSTR: LISTE_INSTR .
+   25 LISTE_INSTR: LISTE_INSTR . INSTRUCTION
+
+    mc_if         shift, and go to state 38
+    mc_loopwhile  shift, and go to state 39
+    mc_for        shift, and go to state 40
+    mc_in         shift, and go to state 41
+    mc_out        shift, and go to state 42
+    IDF           shift, and go to state 43
+
+    $default  reduce using rule 23 (PARTIE_INSTR)
+
+    INSTRUCTION      go to state 67
+    INST_AFF         go to state 47
+    INST_COND        go to state 48
+    INST_LOOP_WHILE  go to state 49
+    INST_FOR         go to state 50
+    INST_IN          go to state 51
+    INST_OUT         go to state 52
+
+
+state 46
+
+   26 LISTE_INSTR: INSTRUCTION .
+
+    $default  reduce using rule 26 (LISTE_INSTR)
+
+
+state 47
+
+   27 INSTRUCTION: INST_AFF .
+
+    $default  reduce using rule 27 (INSTRUCTION)
+
+
+state 48
+
+   28 INSTRUCTION: INST_COND .
+
+    $default  reduce using rule 28 (INSTRUCTION)
+
+
+state 49
+
+   29 INSTRUCTION: INST_LOOP_WHILE .
+
+    $default  reduce using rule 29 (INSTRUCTION)
+
+
+state 50
+
+   30 INSTRUCTION: INST_FOR .
+
+    $default  reduce using rule 30 (INSTRUCTION)
+
+
+state 51
+
+   31 INSTRUCTION: INST_IN .
+
+    $default  reduce using rule 31 (INSTRUCTION)
+
+
+state 52
+
+   32 INSTRUCTION: INST_OUT .
+
+    $default  reduce using rule 32 (INSTRUCTION)
+
+
+state 53
+
+   10 DECL_DEFINE: IDF DPT CROV TYPE PVG . CST_INT CRMF PVG
+
+    CST_INT  shift, and go to state 68
+
+
+state 54
+
+   18 VALEUR: PARO . PLUS CST_INT PARF
+   19       | PARO . MINS CST_INT PARF
+   20       | PARO . PLUS CST_FLOAT PARF
+   21       | PARO . MINS CST_FLOAT PARF
+
+    PLUS  shift, and go to state 69
+    MINS  shift, and go to state 70
+
+
+state 55
+
+   16 VALEUR: CST_INT .
+
+    $default  reduce using rule 16 (VALEUR)
+
+
+state 56
+
+   17 VALEUR: CST_FLOAT .
+
+    $default  reduce using rule 17 (VALEUR)
+
+
+state 57
+
+    9 DECL_DEFINE: LISTE_IDF DPT TYPE EGAL VALEUR . PVG
+
+    PVG  shift, and go to state 71
+
+
+state 58
+
+   22 DEC_CONST: mc_const IDF DPT TYPE EGAL VALEUR . PVG
+
+    PVG  shift, and go to state 72
+
+
+state 59
+
+   35 INST_COND: mc_if PARO . COND PARF mc_then DPT ACCO PARTIE_INSTR ACCF mc_else ACCO PARTIE_INSTR ACCF mc_endIf PVG
+   36          | mc_if PARO . COND PARF mc_then DPT ACCO PARTIE_INSTR ACCF mc_endIf PVG
+
+    mc_NON     shift, and go to state 73
+    PARO       shift, and go to state 74
+    MINS       shift, and go to state 75
+    IDF        shift, and go to state 76
+    CST_INT    shift, and go to state 77
+    CST_FLOAT  shift, and go to state 78
+
+    EXPR  go to state 79
+    COND  go to state 80
+
+
+state 60
+
+   37 INST_LOOP_WHILE: mc_loopwhile PARO . COND PARF ACCO PARTIE_INSTR ACCF mc_endloop PVG
+
+    mc_NON     shift, and go to state 73
+    PARO       shift, and go to state 74
+    MINS       shift, and go to state 75
+    IDF        shift, and go to state 76
+    CST_INT    shift, and go to state 77
+    CST_FLOAT  shift, and go to state 78
+
+    EXPR  go to state 79
+    COND  go to state 81
+
+
+state 61
+
+   38 INST_FOR: mc_for IDF . mc_in VALEUR mc_to VALEUR ACCO PARTIE_INSTR ACCF mc_endfor PVG
+
+    mc_in  shift, and go to state 82
+
+
+state 62
+
+   39 INST_IN: mc_in PARO . IDF PARF PVG
+
+    IDF  shift, and go to state 83
+
+
+state 63
+
+   40 INST_OUT: mc_out PARO . LISTE_OUT PARF PVG
+
+    PARO       shift, and go to state 84
+    MINS       shift, and go to state 75
+    IDF        shift, and go to state 76
+    CST_INT    shift, and go to state 77
+    CST_FLOAT  shift, and go to state 78
+    CHAINE     shift, and go to state 85
+
+    LISTE_OUT  go to state 86
+    OUT_ARG    go to state 87
+    EXPR       go to state 88
+
+
+state 64
+
+   34 INST_AFF: IDF CROV . EXPR CRMF AFF EXPR PVG
+
+    PARO       shift, and go to state 84
+    MINS       shift, and go to state 75
+    IDF        shift, and go to state 76
+    CST_INT    shift, and go to state 77
+    CST_FLOAT  shift, and go to state 78
+
+    EXPR  go to state 89
+
+
+state 65
+
+   33 INST_AFF: IDF AFF . EXPR PVG
+
+    PARO       shift, and go to state 84
+    MINS       shift, and go to state 75
+    IDF        shift, and go to state 76
+    CST_INT    shift, and go to state 77
+    CST_FLOAT  shift, and go to state 78
+
+    EXPR  go to state 90
+
+
+state 66
+
+    1 PROGRAMME: mc_BeginProject IDF PVG mc_Setup DPT PARTIE_DEC mc_Run DPT ACCO PARTIE_INSTR ACCF . mc_EndProject PVG
+
+    mc_EndProject  shift, and go to state 91
+
+
+state 67
+
+   25 LISTE_INSTR: LISTE_INSTR INSTRUCTION .
+
+    $default  reduce using rule 25 (LISTE_INSTR)
+
+
+state 68
+
+   10 DECL_DEFINE: IDF DPT CROV TYPE PVG CST_INT . CRMF PVG
+
+    CRMF  shift, and go to state 92
+
+
+state 69
+
+   18 VALEUR: PARO PLUS . CST_INT PARF
+   20       | PARO PLUS . CST_FLOAT PARF
+
+    CST_INT    shift, and go to state 93
+    CST_FLOAT  shift, and go to state 94
+
+
+state 70
+
+   19 VALEUR: PARO MINS . CST_INT PARF
+   21       | PARO MINS . CST_FLOAT PARF
+
+    CST_INT    shift, and go to state 95
+    CST_FLOAT  shift, and go to state 96
+
+
+state 71
+
+    9 DECL_DEFINE: LISTE_IDF DPT TYPE EGAL VALEUR PVG .
+
+    $default  reduce using rule 9 (DECL_DEFINE)
+
+
+state 72
+
+   22 DEC_CONST: mc_const IDF DPT TYPE EGAL VALEUR PVG .
+
+    $default  reduce using rule 22 (DEC_CONST)
+
+
+state 73
+
+   67 COND: mc_NON . PARO COND PARF
+
+    PARO  shift, and go to state 97
+
+
+state 74
+
+   50 EXPR: PARO . EXPR PARF
+   55     | PARO . PLUS CST_INT PARF
+   56     | PARO . MINS CST_INT PARF
+   57     | PARO . PLUS CST_FLOAT PARF
+   58     | PARO . MINS CST_FLOAT PARF
+   65 COND: PARO . COND mc_AND COND PARF
+   66     | PARO . COND mc_OR COND PARF
+   68     | PARO . COND PARF
+
+    mc_NON     shift, and go to state 73
+    PARO       shift, and go to state 74
+    PLUS       shift, and go to state 98
+    MINS       shift, and go to state 99
+    IDF        shift, and go to state 76
+    CST_INT    shift, and go to state 77
+    CST_FLOAT  shift, and go to state 78
+
+    EXPR  go to state 100
+    COND  go to state 101
+
+
+state 75
+
+   49 EXPR: MINS . EXPR
+
+    PARO       shift, and go to state 84
+    MINS       shift, and go to state 75
+    IDF        shift, and go to state 76
+    CST_INT    shift, and go to state 77
+    CST_FLOAT  shift, and go to state 78
+
+    EXPR  go to state 102
+
+
+state 76
+
+   51 EXPR: IDF .
+   52     | IDF . CROV EXPR CRMF
+
+    CROV  shift, and go to state 103
+
+    $default  reduce using rule 51 (EXPR)
+
+
+state 77
+
+   53 EXPR: CST_INT .
+
+    $default  reduce using rule 53 (EXPR)
+
+
+state 78
+
+   54 EXPR: CST_FLOAT .
+
+    $default  reduce using rule 54 (EXPR)
+
+
+state 79
+
+   45 EXPR: EXPR . PLUS EXPR
+   46     | EXPR . MINS EXPR
+   47     | EXPR . MULT EXPR
+   48     | EXPR . DIV EXPR
+   59 COND: EXPR . LT EXPR
+   60     | EXPR . GT EXPR
+   61     | EXPR . LEQ EXPR
+   62     | EXPR . GEQ EXPR
+   63     | EXPR . EQ EXPR
+   64     | EXPR . NEQ EXPR
+
+    PLUS  shift, and go to state 104
+    MINS  shift, and go to state 105
+    MULT  shift, and go to state 106
+    DIV   shift, and go to state 107
+    LEQ   shift, and go to state 108
+    GEQ   shift, and go to state 109
+    LT    shift, and go to state 110
+    GT    shift, and go to state 111
+    EQ    shift, and go to state 112
+    NEQ   shift, and go to state 113
+
+
+state 80
+
+   35 INST_COND: mc_if PARO COND . PARF mc_then DPT ACCO PARTIE_INSTR ACCF mc_else ACCO PARTIE_INSTR ACCF mc_endIf PVG
+   36          | mc_if PARO COND . PARF mc_then DPT ACCO PARTIE_INSTR ACCF mc_endIf PVG
+
+    PARF  shift, and go to state 114
+
+
+state 81
+
+   37 INST_LOOP_WHILE: mc_loopwhile PARO COND . PARF ACCO PARTIE_INSTR ACCF mc_endloop PVG
+
+    PARF  shift, and go to state 115
+
+
+state 82
+
+   38 INST_FOR: mc_for IDF mc_in . VALEUR mc_to VALEUR ACCO PARTIE_INSTR ACCF mc_endfor PVG
+
+    PARO       shift, and go to state 54
+    CST_INT    shift, and go to state 55
+    CST_FLOAT  shift, and go to state 56
+
+    VALEUR  go to state 116
+
+
+state 83
+
+   39 INST_IN: mc_in PARO IDF . PARF PVG
+
+    PARF  shift, and go to state 117
+
+
+state 84
+
+   50 EXPR: PARO . EXPR PARF
+   55     | PARO . PLUS CST_INT PARF
+   56     | PARO . MINS CST_INT PARF
+   57     | PARO . PLUS CST_FLOAT PARF
+   58     | PARO . MINS CST_FLOAT PARF
+
+    PARO       shift, and go to state 84
+    PLUS       shift, and go to state 98
+    MINS       shift, and go to state 99
+    IDF        shift, and go to state 76
+    CST_INT    shift, and go to state 77
+    CST_FLOAT  shift, and go to state 78
+
+    EXPR  go to state 118
+
+
+state 85
+
+   43 OUT_ARG: CHAINE .
+
+    $default  reduce using rule 43 (OUT_ARG)
+
+
+state 86
+
+   40 INST_OUT: mc_out PARO LISTE_OUT . PARF PVG
+   41 LISTE_OUT: LISTE_OUT . PIPE OUT_ARG
+
+    PIPE  shift, and go to state 119
+    PARF  shift, and go to state 120
+
+
+state 87
+
+   42 LISTE_OUT: OUT_ARG .
+
+    $default  reduce using rule 42 (LISTE_OUT)
+
+
+state 88
+
+   44 OUT_ARG: EXPR .
+   45 EXPR: EXPR . PLUS EXPR
+   46     | EXPR . MINS EXPR
+   47     | EXPR . MULT EXPR
+   48     | EXPR . DIV EXPR
+
+    PLUS  shift, and go to state 104
+    MINS  shift, and go to state 105
+    MULT  shift, and go to state 106
+    DIV   shift, and go to state 107
+
+    $default  reduce using rule 44 (OUT_ARG)
+
+
+state 89
+
+   34 INST_AFF: IDF CROV EXPR . CRMF AFF EXPR PVG
+   45 EXPR: EXPR . PLUS EXPR
+   46     | EXPR . MINS EXPR
+   47     | EXPR . MULT EXPR
+   48     | EXPR . DIV EXPR
+
+    CRMF  shift, and go to state 121
+    PLUS  shift, and go to state 104
+    MINS  shift, and go to state 105
+    MULT  shift, and go to state 106
+    DIV   shift, and go to state 107
+
+
+state 90
+
+   33 INST_AFF: IDF AFF EXPR . PVG
+   45 EXPR: EXPR . PLUS EXPR
+   46     | EXPR . MINS EXPR
+   47     | EXPR . MULT EXPR
+   48     | EXPR . DIV EXPR
+
+    PVG   shift, and go to state 122
+    PLUS  shift, and go to state 104
+    MINS  shift, and go to state 105
+    MULT  shift, and go to state 106
+    DIV   shift, and go to state 107
+
+
+state 91
+
+    1 PROGRAMME: mc_BeginProject IDF PVG mc_Setup DPT PARTIE_DEC mc_Run DPT ACCO PARTIE_INSTR ACCF mc_EndProject . PVG
+
+    PVG  shift, and go to state 123
+
+
+state 92
+
+   10 DECL_DEFINE: IDF DPT CROV TYPE PVG CST_INT CRMF . PVG
+
+    PVG  shift, and go to state 124
+
+
+state 93
+
+   18 VALEUR: PARO PLUS CST_INT . PARF
+
+    PARF  shift, and go to state 125
+
+
+state 94
+
+   20 VALEUR: PARO PLUS CST_FLOAT . PARF
+
+    PARF  shift, and go to state 126
+
+
+state 95
+
+   19 VALEUR: PARO MINS CST_INT . PARF
+
+    PARF  shift, and go to state 127
+
+
+state 96
+
+   21 VALEUR: PARO MINS CST_FLOAT . PARF
+
+    PARF  shift, and go to state 128
+
+
+state 97
+
+   67 COND: mc_NON PARO . COND PARF
+
+    mc_NON     shift, and go to state 73
+    PARO       shift, and go to state 74
+    MINS       shift, and go to state 75
+    IDF        shift, and go to state 76
+    CST_INT    shift, and go to state 77
+    CST_FLOAT  shift, and go to state 78
+
+    EXPR  go to state 79
+    COND  go to state 129
+
+
+state 98
+
+   55 EXPR: PARO PLUS . CST_INT PARF
+   57     | PARO PLUS . CST_FLOAT PARF
+
+    CST_INT    shift, and go to state 130
+    CST_FLOAT  shift, and go to state 131
+
+
+state 99
+
+   49 EXPR: MINS . EXPR
+   56     | PARO MINS . CST_INT PARF
+   58     | PARO MINS . CST_FLOAT PARF
+
+    PARO       shift, and go to state 84
+    MINS       shift, and go to state 75
+    IDF        shift, and go to state 76
+    CST_INT    shift, and go to state 132
+    CST_FLOAT  shift, and go to state 133
+
+    EXPR  go to state 102
+
+
+state 100
+
+   45 EXPR: EXPR . PLUS EXPR
+   46     | EXPR . MINS EXPR
+   47     | EXPR . MULT EXPR
+   48     | EXPR . DIV EXPR
+   50     | PARO EXPR . PARF
+   59 COND: EXPR . LT EXPR
+   60     | EXPR . GT EXPR
+   61     | EXPR . LEQ EXPR
+   62     | EXPR . GEQ EXPR
+   63     | EXPR . EQ EXPR
+   64     | EXPR . NEQ EXPR
+
+    PARF  shift, and go to state 134
+    PLUS  shift, and go to state 104
+    MINS  shift, and go to state 105
+    MULT  shift, and go to state 106
+    DIV   shift, and go to state 107
+    LEQ   shift, and go to state 108
+    GEQ   shift, and go to state 109
+    LT    shift, and go to state 110
+    GT    shift, and go to state 111
+    EQ    shift, and go to state 112
+    NEQ   shift, and go to state 113
+
+
+state 101
+
+   65 COND: PARO COND . mc_AND COND PARF
+   66     | PARO COND . mc_OR COND PARF
+   68     | PARO COND . PARF
+
+    mc_AND  shift, and go to state 135
+    mc_OR   shift, and go to state 136
+    PARF    shift, and go to state 137
+
+
+state 102
+
+   45 EXPR: EXPR . PLUS EXPR
+   46     | EXPR . MINS EXPR
+   47     | EXPR . MULT EXPR
+   48     | EXPR . DIV EXPR
+   49     | MINS EXPR .
+
+    $default  reduce using rule 49 (EXPR)
+
+
+state 103
+
+   52 EXPR: IDF CROV . EXPR CRMF
+
+    PARO       shift, and go to state 84
+    MINS       shift, and go to state 75
+    IDF        shift, and go to state 76
+    CST_INT    shift, and go to state 77
+    CST_FLOAT  shift, and go to state 78
+
+    EXPR  go to state 138
+
+
+state 104
+
+   45 EXPR: EXPR PLUS . EXPR
+
+    PARO       shift, and go to state 84
+    MINS       shift, and go to state 75
+    IDF        shift, and go to state 76
+    CST_INT    shift, and go to state 77
+    CST_FLOAT  shift, and go to state 78
+
+    EXPR  go to state 139
+
+
+state 105
+
+   46 EXPR: EXPR MINS . EXPR
+
+    PARO       shift, and go to state 84
+    MINS       shift, and go to state 75
+    IDF        shift, and go to state 76
+    CST_INT    shift, and go to state 77
+    CST_FLOAT  shift, and go to state 78
+
+    EXPR  go to state 140
+
+
+state 106
+
+   47 EXPR: EXPR MULT . EXPR
+
+    PARO       shift, and go to state 84
+    MINS       shift, and go to state 75
+    IDF        shift, and go to state 76
+    CST_INT    shift, and go to state 77
+    CST_FLOAT  shift, and go to state 78
+
+    EXPR  go to state 141
+
+
+state 107
+
+   48 EXPR: EXPR DIV . EXPR
+
+    PARO       shift, and go to state 84
+    MINS       shift, and go to state 75
+    IDF        shift, and go to state 76
+    CST_INT    shift, and go to state 77
+    CST_FLOAT  shift, and go to state 78
+
+    EXPR  go to state 142
+
+
+state 108
+
+   61 COND: EXPR LEQ . EXPR
+
+    PARO       shift, and go to state 84
+    MINS       shift, and go to state 75
+    IDF        shift, and go to state 76
+    CST_INT    shift, and go to state 77
+    CST_FLOAT  shift, and go to state 78
+
+    EXPR  go to state 143
+
+
+state 109
+
+   62 COND: EXPR GEQ . EXPR
+
+    PARO       shift, and go to state 84
+    MINS       shift, and go to state 75
+    IDF        shift, and go to state 76
+    CST_INT    shift, and go to state 77
+    CST_FLOAT  shift, and go to state 78
+
+    EXPR  go to state 144
+
+
+state 110
+
+   59 COND: EXPR LT . EXPR
+
+    PARO       shift, and go to state 84
+    MINS       shift, and go to state 75
+    IDF        shift, and go to state 76
+    CST_INT    shift, and go to state 77
+    CST_FLOAT  shift, and go to state 78
+
+    EXPR  go to state 145
+
+
+state 111
+
+   60 COND: EXPR GT . EXPR
+
+    PARO       shift, and go to state 84
+    MINS       shift, and go to state 75
+    IDF        shift, and go to state 76
+    CST_INT    shift, and go to state 77
+    CST_FLOAT  shift, and go to state 78
+
+    EXPR  go to state 146
+
+
+state 112
+
+   63 COND: EXPR EQ . EXPR
+
+    PARO       shift, and go to state 84
+    MINS       shift, and go to state 75
+    IDF        shift, and go to state 76
+    CST_INT    shift, and go to state 77
+    CST_FLOAT  shift, and go to state 78
+
+    EXPR  go to state 147
+
+
+state 113
+
+   64 COND: EXPR NEQ . EXPR
+
+    PARO       shift, and go to state 84
+    MINS       shift, and go to state 75
+    IDF        shift, and go to state 76
+    CST_INT    shift, and go to state 77
+    CST_FLOAT  shift, and go to state 78
+
+    EXPR  go to state 148
+
+
+state 114
+
+   35 INST_COND: mc_if PARO COND PARF . mc_then DPT ACCO PARTIE_INSTR ACCF mc_else ACCO PARTIE_INSTR ACCF mc_endIf PVG
+   36          | mc_if PARO COND PARF . mc_then DPT ACCO PARTIE_INSTR ACCF mc_endIf PVG
+
+    mc_then  shift, and go to state 149
+
+
+state 115
+
+   37 INST_LOOP_WHILE: mc_loopwhile PARO COND PARF . ACCO PARTIE_INSTR ACCF mc_endloop PVG
+
+    ACCO  shift, and go to state 150
+
+
+state 116
+
+   38 INST_FOR: mc_for IDF mc_in VALEUR . mc_to VALEUR ACCO PARTIE_INSTR ACCF mc_endfor PVG
+
+    mc_to  shift, and go to state 151
+
+
+state 117
+
+   39 INST_IN: mc_in PARO IDF PARF . PVG
+
+    PVG  shift, and go to state 152
+
+
+state 118
+
+   45 EXPR: EXPR . PLUS EXPR
+   46     | EXPR . MINS EXPR
+   47     | EXPR . MULT EXPR
+   48     | EXPR . DIV EXPR
+   50     | PARO EXPR . PARF
+
+    PARF  shift, and go to state 134
+    PLUS  shift, and go to state 104
+    MINS  shift, and go to state 105
+    MULT  shift, and go to state 106
+    DIV   shift, and go to state 107
+
+
+state 119
+
+   41 LISTE_OUT: LISTE_OUT PIPE . OUT_ARG
+
+    PARO       shift, and go to state 84
+    MINS       shift, and go to state 75
+    IDF        shift, and go to state 76
+    CST_INT    shift, and go to state 77
+    CST_FLOAT  shift, and go to state 78
+    CHAINE     shift, and go to state 85
+
+    OUT_ARG  go to state 153
+    EXPR     go to state 88
+
+
+state 120
+
+   40 INST_OUT: mc_out PARO LISTE_OUT PARF . PVG
+
+    PVG  shift, and go to state 154
+
+
+state 121
+
+   34 INST_AFF: IDF CROV EXPR CRMF . AFF EXPR PVG
+
+    AFF  shift, and go to state 155
+
+
+state 122
+
+   33 INST_AFF: IDF AFF EXPR PVG .
+
+    $default  reduce using rule 33 (INST_AFF)
+
+
+state 123
+
+    1 PROGRAMME: mc_BeginProject IDF PVG mc_Setup DPT PARTIE_DEC mc_Run DPT ACCO PARTIE_INSTR ACCF mc_EndProject PVG .
+
+    $default  reduce using rule 1 (PROGRAMME)
+
+
+state 124
+
+   10 DECL_DEFINE: IDF DPT CROV TYPE PVG CST_INT CRMF PVG .
+
+    $default  reduce using rule 10 (DECL_DEFINE)
+
+
+state 125
+
+   18 VALEUR: PARO PLUS CST_INT PARF .
+
+    $default  reduce using rule 18 (VALEUR)
+
+
+state 126
+
+   20 VALEUR: PARO PLUS CST_FLOAT PARF .
+
+    $default  reduce using rule 20 (VALEUR)
+
+
+state 127
+
+   19 VALEUR: PARO MINS CST_INT PARF .
+
+    $default  reduce using rule 19 (VALEUR)
+
+
+state 128
+
+   21 VALEUR: PARO MINS CST_FLOAT PARF .
+
+    $default  reduce using rule 21 (VALEUR)
+
+
+state 129
+
+   67 COND: mc_NON PARO COND . PARF
+
+    PARF  shift, and go to state 156
+
+
+state 130
+
+   55 EXPR: PARO PLUS CST_INT . PARF
+
+    PARF  shift, and go to state 157
+
+
+state 131
+
+   57 EXPR: PARO PLUS CST_FLOAT . PARF
+
+    PARF  shift, and go to state 158
+
+
+state 132
+
+   53 EXPR: CST_INT .
+   56     | PARO MINS CST_INT . PARF
+
+    PARF  shift, and go to state 159
+
+    PARF      [reduce using rule 53 (EXPR)]
+    $default  reduce using rule 53 (EXPR)
+
+
+state 133
+
+   54 EXPR: CST_FLOAT .
+   58     | PARO MINS CST_FLOAT . PARF
+
+    PARF  shift, and go to state 160
+
+    PARF      [reduce using rule 54 (EXPR)]
+    $default  reduce using rule 54 (EXPR)
+
+
+state 134
+
+   50 EXPR: PARO EXPR PARF .
+
+    $default  reduce using rule 50 (EXPR)
+
+
+state 135
+
+   65 COND: PARO COND mc_AND . COND PARF
+
+    mc_NON     shift, and go to state 73
+    PARO       shift, and go to state 74
+    MINS       shift, and go to state 75
+    IDF        shift, and go to state 76
+    CST_INT    shift, and go to state 77
+    CST_FLOAT  shift, and go to state 78
+
+    EXPR  go to state 79
+    COND  go to state 161
+
+
+state 136
+
+   66 COND: PARO COND mc_OR . COND PARF
+
+    mc_NON     shift, and go to state 73
+    PARO       shift, and go to state 74
+    MINS       shift, and go to state 75
+    IDF        shift, and go to state 76
+    CST_INT    shift, and go to state 77
+    CST_FLOAT  shift, and go to state 78
+
+    EXPR  go to state 79
+    COND  go to state 162
+
+
+state 137
+
+   68 COND: PARO COND PARF .
+
+    $default  reduce using rule 68 (COND)
+
+
+state 138
+
+   45 EXPR: EXPR . PLUS EXPR
+   46     | EXPR . MINS EXPR
+   47     | EXPR . MULT EXPR
+   48     | EXPR . DIV EXPR
+   52     | IDF CROV EXPR . CRMF
+
+    CRMF  shift, and go to state 163
+    PLUS  shift, and go to state 104
+    MINS  shift, and go to state 105
+    MULT  shift, and go to state 106
+    DIV   shift, and go to state 107
+
+
+state 139
+
+   45 EXPR: EXPR . PLUS EXPR
+   45     | EXPR PLUS EXPR .
+   46     | EXPR . MINS EXPR
+   47     | EXPR . MULT EXPR
+   48     | EXPR . DIV EXPR
+
+    MULT  shift, and go to state 106
+    DIV   shift, and go to state 107
+
+    $default  reduce using rule 45 (EXPR)
+
+
+state 140
+
+   45 EXPR: EXPR . PLUS EXPR
+   46     | EXPR . MINS EXPR
+   46     | EXPR MINS EXPR .
+   47     | EXPR . MULT EXPR
+   48     | EXPR . DIV EXPR
+
+    MULT  shift, and go to state 106
+    DIV   shift, and go to state 107
+
+    $default  reduce using rule 46 (EXPR)
+
+
+state 141
+
+   45 EXPR: EXPR . PLUS EXPR
+   46     | EXPR . MINS EXPR
+   47     | EXPR . MULT EXPR
+   47     | EXPR MULT EXPR .
+   48     | EXPR . DIV EXPR
+
+    $default  reduce using rule 47 (EXPR)
+
+
+state 142
+
+   45 EXPR: EXPR . PLUS EXPR
+   46     | EXPR . MINS EXPR
+   47     | EXPR . MULT EXPR
+   48     | EXPR . DIV EXPR
+   48     | EXPR DIV EXPR .
+
+    $default  reduce using rule 48 (EXPR)
+
+
+state 143
+
+   45 EXPR: EXPR . PLUS EXPR
+   46     | EXPR . MINS EXPR
+   47     | EXPR . MULT EXPR
+   48     | EXPR . DIV EXPR
+   61 COND: EXPR LEQ EXPR .
+
+    PLUS  shift, and go to state 104
+    MINS  shift, and go to state 105
+    MULT  shift, and go to state 106
+    DIV   shift, and go to state 107
+
+    $default  reduce using rule 61 (COND)
+
+
+state 144
+
+   45 EXPR: EXPR . PLUS EXPR
+   46     | EXPR . MINS EXPR
+   47     | EXPR . MULT EXPR
+   48     | EXPR . DIV EXPR
+   62 COND: EXPR GEQ EXPR .
+
+    PLUS  shift, and go to state 104
+    MINS  shift, and go to state 105
+    MULT  shift, and go to state 106
+    DIV   shift, and go to state 107
+
+    $default  reduce using rule 62 (COND)
+
+
+state 145
+
+   45 EXPR: EXPR . PLUS EXPR
+   46     | EXPR . MINS EXPR
+   47     | EXPR . MULT EXPR
+   48     | EXPR . DIV EXPR
+   59 COND: EXPR LT EXPR .
+
+    PLUS  shift, and go to state 104
+    MINS  shift, and go to state 105
+    MULT  shift, and go to state 106
+    DIV   shift, and go to state 107
+
+    $default  reduce using rule 59 (COND)
+
+
+state 146
+
+   45 EXPR: EXPR . PLUS EXPR
+   46     | EXPR . MINS EXPR
+   47     | EXPR . MULT EXPR
+   48     | EXPR . DIV EXPR
+   60 COND: EXPR GT EXPR .
+
+    PLUS  shift, and go to state 104
+    MINS  shift, and go to state 105
+    MULT  shift, and go to state 106
+    DIV   shift, and go to state 107
+
+    $default  reduce using rule 60 (COND)
+
+
+state 147
+
+   45 EXPR: EXPR . PLUS EXPR
+   46     | EXPR . MINS EXPR
+   47     | EXPR . MULT EXPR
+   48     | EXPR . DIV EXPR
+   63 COND: EXPR EQ EXPR .
+
+    PLUS  shift, and go to state 104
+    MINS  shift, and go to state 105
+    MULT  shift, and go to state 106
+    DIV   shift, and go to state 107
+
+    $default  reduce using rule 63 (COND)
+
+
+state 148
+
+   45 EXPR: EXPR . PLUS EXPR
+   46     | EXPR . MINS EXPR
+   47     | EXPR . MULT EXPR
+   48     | EXPR . DIV EXPR
+   64 COND: EXPR NEQ EXPR .
+
+    PLUS  shift, and go to state 104
+    MINS  shift, and go to state 105
+    MULT  shift, and go to state 106
+    DIV   shift, and go to state 107
+
+    $default  reduce using rule 64 (COND)
+
+
+state 149
+
+   35 INST_COND: mc_if PARO COND PARF mc_then . DPT ACCO PARTIE_INSTR ACCF mc_else ACCO PARTIE_INSTR ACCF mc_endIf PVG
+   36          | mc_if PARO COND PARF mc_then . DPT ACCO PARTIE_INSTR ACCF mc_endIf PVG
+
+    DPT  shift, and go to state 164
+
+
+state 150
+
+   37 INST_LOOP_WHILE: mc_loopwhile PARO COND PARF ACCO . PARTIE_INSTR ACCF mc_endloop PVG
+
+    mc_if         shift, and go to state 38
+    mc_loopwhile  shift, and go to state 39
+    mc_for        shift, and go to state 40
+    mc_in         shift, and go to state 41
+    mc_out        shift, and go to state 42
+    IDF           shift, and go to state 43
+
+    $default  reduce using rule 24 (PARTIE_INSTR)
+
+    PARTIE_INSTR     go to state 165
+    LISTE_INSTR      go to state 45
+    INSTRUCTION      go to state 46
+    INST_AFF         go to state 47
+    INST_COND        go to state 48
+    INST_LOOP_WHILE  go to state 49
+    INST_FOR         go to state 50
+    INST_IN          go to state 51
+    INST_OUT         go to state 52
+
+
+state 151
+
+   38 INST_FOR: mc_for IDF mc_in VALEUR mc_to . VALEUR ACCO PARTIE_INSTR ACCF mc_endfor PVG
+
+    PARO       shift, and go to state 54
+    CST_INT    shift, and go to state 55
+    CST_FLOAT  shift, and go to state 56
+
+    VALEUR  go to state 166
+
+
+state 152
+
+   39 INST_IN: mc_in PARO IDF PARF PVG .
+
+    $default  reduce using rule 39 (INST_IN)
+
+
+state 153
+
+   41 LISTE_OUT: LISTE_OUT PIPE OUT_ARG .
+
+    $default  reduce using rule 41 (LISTE_OUT)
+
+
+state 154
+
+   40 INST_OUT: mc_out PARO LISTE_OUT PARF PVG .
+
+    $default  reduce using rule 40 (INST_OUT)
+
+
+state 155
+
+   34 INST_AFF: IDF CROV EXPR CRMF AFF . EXPR PVG
+
+    PARO       shift, and go to state 84
+    MINS       shift, and go to state 75
+    IDF        shift, and go to state 76
+    CST_INT    shift, and go to state 77
+    CST_FLOAT  shift, and go to state 78
+
+    EXPR  go to state 167
+
+
+state 156
+
+   67 COND: mc_NON PARO COND PARF .
+
+    $default  reduce using rule 67 (COND)
+
+
+state 157
+
+   55 EXPR: PARO PLUS CST_INT PARF .
+
+    $default  reduce using rule 55 (EXPR)
+
+
+state 158
+
+   57 EXPR: PARO PLUS CST_FLOAT PARF .
+
+    $default  reduce using rule 57 (EXPR)
+
+
+state 159
+
+   56 EXPR: PARO MINS CST_INT PARF .
+
+    $default  reduce using rule 56 (EXPR)
+
+
+state 160
+
+   58 EXPR: PARO MINS CST_FLOAT PARF .
+
+    $default  reduce using rule 58 (EXPR)
+
+
+state 161
+
+   65 COND: PARO COND mc_AND COND . PARF
+
+    PARF  shift, and go to state 168
+
+
+state 162
+
+   66 COND: PARO COND mc_OR COND . PARF
+
+    PARF  shift, and go to state 169
+
+
+state 163
+
+   52 EXPR: IDF CROV EXPR CRMF .
+
+    $default  reduce using rule 52 (EXPR)
+
+
+state 164
+
+   35 INST_COND: mc_if PARO COND PARF mc_then DPT . ACCO PARTIE_INSTR ACCF mc_else ACCO PARTIE_INSTR ACCF mc_endIf PVG
+   36          | mc_if PARO COND PARF mc_then DPT . ACCO PARTIE_INSTR ACCF mc_endIf PVG
+
+    ACCO  shift, and go to state 170
+
+
+state 165
+
+   37 INST_LOOP_WHILE: mc_loopwhile PARO COND PARF ACCO PARTIE_INSTR . ACCF mc_endloop PVG
+
+    ACCF  shift, and go to state 171
+
+
+state 166
+
+   38 INST_FOR: mc_for IDF mc_in VALEUR mc_to VALEUR . ACCO PARTIE_INSTR ACCF mc_endfor PVG
+
+    ACCO  shift, and go to state 172
+
+
+state 167
+
+   34 INST_AFF: IDF CROV EXPR CRMF AFF EXPR . PVG
+   45 EXPR: EXPR . PLUS EXPR
+   46     | EXPR . MINS EXPR
+   47     | EXPR . MULT EXPR
+   48     | EXPR . DIV EXPR
+
+    PVG   shift, and go to state 173
+    PLUS  shift, and go to state 104
+    MINS  shift, and go to state 105
+    MULT  shift, and go to state 106
+    DIV   shift, and go to state 107
+
+
+state 168
+
+   65 COND: PARO COND mc_AND COND PARF .
+
+    $default  reduce using rule 65 (COND)
+
+
+state 169
+
+   66 COND: PARO COND mc_OR COND PARF .
+
+    $default  reduce using rule 66 (COND)
+
+
+state 170
+
+   35 INST_COND: mc_if PARO COND PARF mc_then DPT ACCO . PARTIE_INSTR ACCF mc_else ACCO PARTIE_INSTR ACCF mc_endIf PVG
+   36          | mc_if PARO COND PARF mc_then DPT ACCO . PARTIE_INSTR ACCF mc_endIf PVG
+
+    mc_if         shift, and go to state 38
+    mc_loopwhile  shift, and go to state 39
+    mc_for        shift, and go to state 40
+    mc_in         shift, and go to state 41
+    mc_out        shift, and go to state 42
+    IDF           shift, and go to state 43
+
+    $default  reduce using rule 24 (PARTIE_INSTR)
+
+    PARTIE_INSTR     go to state 174
+    LISTE_INSTR      go to state 45
+    INSTRUCTION      go to state 46
+    INST_AFF         go to state 47
+    INST_COND        go to state 48
+    INST_LOOP_WHILE  go to state 49
+    INST_FOR         go to state 50
+    INST_IN          go to state 51
+    INST_OUT         go to state 52
+
+
+state 171
+
+   37 INST_LOOP_WHILE: mc_loopwhile PARO COND PARF ACCO PARTIE_INSTR ACCF . mc_endloop PVG
+
+    mc_endloop  shift, and go to state 175
+
+
+state 172
+
+   38 INST_FOR: mc_for IDF mc_in VALEUR mc_to VALEUR ACCO . PARTIE_INSTR ACCF mc_endfor PVG
+
+    mc_if         shift, and go to state 38
+    mc_loopwhile  shift, and go to state 39
+    mc_for        shift, and go to state 40
+    mc_in         shift, and go to state 41
+    mc_out        shift, and go to state 42
+    IDF           shift, and go to state 43
+
+    $default  reduce using rule 24 (PARTIE_INSTR)
+
+    PARTIE_INSTR     go to state 176
+    LISTE_INSTR      go to state 45
+    INSTRUCTION      go to state 46
+    INST_AFF         go to state 47
+    INST_COND        go to state 48
+    INST_LOOP_WHILE  go to state 49
+    INST_FOR         go to state 50
+    INST_IN          go to state 51
+    INST_OUT         go to state 52
+
+
+state 173
+
+   34 INST_AFF: IDF CROV EXPR CRMF AFF EXPR PVG .
+
+    $default  reduce using rule 34 (INST_AFF)
+
+
+state 174
+
+   35 INST_COND: mc_if PARO COND PARF mc_then DPT ACCO PARTIE_INSTR . ACCF mc_else ACCO PARTIE_INSTR ACCF mc_endIf PVG
+   36          | mc_if PARO COND PARF mc_then DPT ACCO PARTIE_INSTR . ACCF mc_endIf PVG
+
+    ACCF  shift, and go to state 177
+
+
+state 175
+
+   37 INST_LOOP_WHILE: mc_loopwhile PARO COND PARF ACCO PARTIE_INSTR ACCF mc_endloop . PVG
+
+    PVG  shift, and go to state 178
+
+
+state 176
+
+   38 INST_FOR: mc_for IDF mc_in VALEUR mc_to VALEUR ACCO PARTIE_INSTR . ACCF mc_endfor PVG
+
+    ACCF  shift, and go to state 179
+
+
+state 177
+
+   35 INST_COND: mc_if PARO COND PARF mc_then DPT ACCO PARTIE_INSTR ACCF . mc_else ACCO PARTIE_INSTR ACCF mc_endIf PVG
+   36          | mc_if PARO COND PARF mc_then DPT ACCO PARTIE_INSTR ACCF . mc_endIf PVG
+
+    mc_else   shift, and go to state 180
+    mc_endIf  shift, and go to state 181
+
+
+state 178
+
+   37 INST_LOOP_WHILE: mc_loopwhile PARO COND PARF ACCO PARTIE_INSTR ACCF mc_endloop PVG .
+
+    $default  reduce using rule 37 (INST_LOOP_WHILE)
+
+
+state 179
+
+   38 INST_FOR: mc_for IDF mc_in VALEUR mc_to VALEUR ACCO PARTIE_INSTR ACCF . mc_endfor PVG
+
+    mc_endfor  shift, and go to state 182
+
+
+state 180
+
+   35 INST_COND: mc_if PARO COND PARF mc_then DPT ACCO PARTIE_INSTR ACCF mc_else . ACCO PARTIE_INSTR ACCF mc_endIf PVG
+
+    ACCO  shift, and go to state 183
+
+
+state 181
+
+   36 INST_COND: mc_if PARO COND PARF mc_then DPT ACCO PARTIE_INSTR ACCF mc_endIf . PVG
+
+    PVG  shift, and go to state 184
+
+
+state 182
+
+   38 INST_FOR: mc_for IDF mc_in VALEUR mc_to VALEUR ACCO PARTIE_INSTR ACCF mc_endfor . PVG
+
+    PVG  shift, and go to state 185
+
+
+state 183
+
+   35 INST_COND: mc_if PARO COND PARF mc_then DPT ACCO PARTIE_INSTR ACCF mc_else ACCO . PARTIE_INSTR ACCF mc_endIf PVG
+
+    mc_if         shift, and go to state 38
+    mc_loopwhile  shift, and go to state 39
+    mc_for        shift, and go to state 40
+    mc_in         shift, and go to state 41
+    mc_out        shift, and go to state 42
+    IDF           shift, and go to state 43
+
+    $default  reduce using rule 24 (PARTIE_INSTR)
+
+    PARTIE_INSTR     go to state 186
+    LISTE_INSTR      go to state 45
+    INSTRUCTION      go to state 46
+    INST_AFF         go to state 47
+    INST_COND        go to state 48
+    INST_LOOP_WHILE  go to state 49
+    INST_FOR         go to state 50
+    INST_IN          go to state 51
+    INST_OUT         go to state 52
+
+
+state 184
+
+   36 INST_COND: mc_if PARO COND PARF mc_then DPT ACCO PARTIE_INSTR ACCF mc_endIf PVG .
+
+    $default  reduce using rule 36 (INST_COND)
+
+
+state 185
+
+   38 INST_FOR: mc_for IDF mc_in VALEUR mc_to VALEUR ACCO PARTIE_INSTR ACCF mc_endfor PVG .
+
+    $default  reduce using rule 38 (INST_FOR)
+
+
+state 186
+
+   35 INST_COND: mc_if PARO COND PARF mc_then DPT ACCO PARTIE_INSTR ACCF mc_else ACCO PARTIE_INSTR . ACCF mc_endIf PVG
+
+    ACCF  shift, and go to state 187
+
+
+state 187
+
+   35 INST_COND: mc_if PARO COND PARF mc_then DPT ACCO PARTIE_INSTR ACCF mc_else ACCO PARTIE_INSTR ACCF . mc_endIf PVG
+
+    mc_endIf  shift, and go to state 188
+
+
+state 188
+
+   35 INST_COND: mc_if PARO COND PARF mc_then DPT ACCO PARTIE_INSTR ACCF mc_else ACCO PARTIE_INSTR ACCF mc_endIf . PVG
+
+    PVG  shift, and go to state 189
+
+
+state 189
+
+   35 INST_COND: mc_if PARO COND PARF mc_then DPT ACCO PARTIE_INSTR ACCF mc_else ACCO PARTIE_INSTR ACCF mc_endIf PVG .
+
+    $default  reduce using rule 35 (INST_COND)
