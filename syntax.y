@@ -3,7 +3,7 @@
     #include<stdlib.h>
     int yylex();
     extern int yylineno; 
-    extern int col;
+    extern int yycolumn;
     void yyerror(char* s);
     char current_type[20] = "";
 
@@ -55,11 +55,9 @@ PROGRAMME
       mc_EndProject PVG
       {
           printf("\n>>> Programme '%s' syntaxiquement correct.\n", $2);
-          afficher();
           YYACCEPT;
       }
     ;
-
 
 PARTIE_DEC: LISTE_DEC | ;
 
@@ -88,7 +86,7 @@ IDF_DECL
     : IDF
       {
           if(checkNoDuplicate($1)==-1) printf("Erreur_Semantique, ligne %d, colonne %d, entite '%s' "
-                "(variable deja declaree)\n", yylineno, col, $1);
+                "(variable deja declaree)\n", yylineno, yycolumn, $1);
           updateCode($1, "Var");
           updateType($1, current_type);
       }
@@ -112,7 +110,7 @@ DEC_TAB
     : mc_define IDF DPT CROV TYPE PVG CST_INT CRMF PVG
       {
           if(checkNoDuplicate($2)==-1) printf("Erreur_Semantique, ligne %d, colonne %d, entite '%s' "
-                "(variable deja declaree)\n", yylineno, col, $2);
+                "(variable deja declaree)\n", yylineno, yycolumn, $2);
           updateCode($2, "Tableau");
           updateType($2, current_type);
           if ($7 <= 0)
@@ -126,7 +124,7 @@ DEC_CONST
     : mc_const IDF DPT TYPE EGAL VALEUR PVG
       {
           if(checkNoDuplicate($2)==-1) printf("Erreur_Semantique, ligne %d, colonne %d, entite '%s' "
-                "(variable deja declaree)\n", yylineno, col, $2);
+                "(variable deja declaree)\n", yylineno, yycolumn, $2);
           updateCode($2, "Const");
           updateType($2, current_type);
       }
@@ -151,10 +149,10 @@ INSTRUCTION
 INST_AFF
     : IDF AFF EXPR PVG
       { if(checkDeclared($1)==-1) printf("Erreur_Semantique, ligne %d, colonne %d, entite '%s' "
-                "(variable non declaree)\n", yylineno, col, $1);}
+                "(variable non declaree)\n", yylineno, yycolumn, $1);}
     | IDF CROV EXPR CRMF AFF EXPR PVG
       { if(checkDeclared($1)==-1) printf("Erreur_Semantique, ligne %d, colonne %d, entite '%s' "
-                "(variable non declaree)\n", yylineno, col, $1); }
+                "(variable non declaree)\n", yylineno, yycolumn, $1); }
     ;
 
 INST_COND
@@ -179,13 +177,13 @@ INST_FOR
       ACCO PARTIE_INSTR ACCF
       mc_endfor PVG
       { if(checkDeclared($2)==-1) printf("Erreur_Semantique, ligne %d, colonne %d, entite '%s' "
-                "(variable non declaree)\n", yylineno, col, $2); }
+                "(variable non declaree)\n", yylineno, yycolumn, $2); }
     ;
 
 INST_IN
     : mc_in PARO IDF PARF PVG
       { if(checkDeclared($3)==-1) printf("Erreur_Semantique, ligne %d, colonne %d, entite '%s' "
-                "(variable non declaree)\n", yylineno, col, $3); }
+                "(variable non declaree)\n", yylineno, yycolumn, $3); }
     ;
 
 INST_OUT
@@ -212,13 +210,13 @@ EXPR
     | IDF
       {
           if(checkDeclared($1)==-1) printf("Erreur_Semantique, ligne %d, colonne %d, entite '%s' "
-                "(variable non declaree)\n", yylineno, col, $1);
+                "(variable non declaree)\n", yylineno, yycolumn, $1);
           $$ = $1;
       }
     | IDF CROV EXPR CRMF
       {
           if(checkDeclared($1)==-1) printf("Erreur_Semantique, ligne %d, colonne %d, entite '%s' "
-                "(variable non declaree)\n", yylineno, col, $1);
+                "(variable non declaree)\n", yylineno, yycolumn, $1);
           $$ = $1;
       }
     | CST_INT          { $$ = "integer"; }

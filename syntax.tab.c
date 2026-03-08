@@ -74,7 +74,7 @@
     #include<stdlib.h>
     int yylex();
     extern int yylineno; 
-    extern int col;
+    extern int yycolumn;
     void yyerror(char* s);
     char current_type[20] = "";
 
@@ -512,14 +512,14 @@ static const yytype_int8 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    52,    52,    64,    64,    67,    68,    72,    73,    74,
-      78,    79,    83,    84,    88,    98,    99,   103,   104,   105,
-     106,   107,   108,   112,   126,   135,   135,   138,   139,   143,
-     144,   145,   146,   147,   148,   152,   155,   161,   165,   172,
-     178,   186,   192,   196,   197,   201,   202,   206,   207,   208,
-     209,   210,   211,   212,   218,   224,   225,   226,   227,   228,
-     229,   233,   234,   235,   236,   237,   238,   239,   240,   241,
-     242
+       0,    52,    52,    62,    62,    65,    66,    70,    71,    72,
+      76,    77,    81,    82,    86,    96,    97,   101,   102,   103,
+     104,   105,   106,   110,   124,   133,   133,   136,   137,   141,
+     142,   143,   144,   145,   146,   150,   153,   159,   163,   170,
+     176,   184,   190,   194,   195,   199,   200,   204,   205,   206,
+     207,   208,   209,   210,   216,   222,   223,   224,   225,   226,
+     227,   231,   232,   233,   234,   235,   236,   237,   238,   239,
+     240
 };
 #endif
 
@@ -1554,7 +1554,6 @@ yyreduce:
 #line 56 "syntax.y"
     {
           printf("\n>>> Programme '%s' syntaxiquement correct.\n", (yyvsp[(2) - (13)].str));
-          afficher();
           YYACCEPT;
       ;}
     break;
@@ -1562,10 +1561,10 @@ yyreduce:
   case 14:
 
 /* Line 1455 of yacc.c  */
-#line 89 "syntax.y"
+#line 87 "syntax.y"
     {
           if(checkNoDuplicate((yyvsp[(1) - (1)].str))==-1) printf("Erreur_Semantique, ligne %d, colonne %d, entite '%s' "
-                "(variable deja declaree)\n", yylineno, col, (yyvsp[(1) - (1)].str));
+                "(variable deja declaree)\n", yylineno, yycolumn, (yyvsp[(1) - (1)].str));
           updateCode((yyvsp[(1) - (1)].str), "Var");
           updateType((yyvsp[(1) - (1)].str), current_type);
       ;}
@@ -1574,24 +1573,24 @@ yyreduce:
   case 15:
 
 /* Line 1455 of yacc.c  */
-#line 98 "syntax.y"
+#line 96 "syntax.y"
     { strcpy(current_type, "integer"); (yyval.str) = "integer"; ;}
     break;
 
   case 16:
 
 /* Line 1455 of yacc.c  */
-#line 99 "syntax.y"
+#line 97 "syntax.y"
     { strcpy(current_type, "float");   (yyval.str) = "float";   ;}
     break;
 
   case 23:
 
 /* Line 1455 of yacc.c  */
-#line 113 "syntax.y"
+#line 111 "syntax.y"
     {
           if(checkNoDuplicate((yyvsp[(2) - (9)].str))==-1) printf("Erreur_Semantique, ligne %d, colonne %d, entite '%s' "
-                "(variable deja declaree)\n", yylineno, col, (yyvsp[(2) - (9)].str));
+                "(variable deja declaree)\n", yylineno, yycolumn, (yyvsp[(2) - (9)].str));
           updateCode((yyvsp[(2) - (9)].str), "Tableau");
           updateType((yyvsp[(2) - (9)].str), current_type);
           if ((yyvsp[(7) - (9)].entier) <= 0)
@@ -1603,10 +1602,10 @@ yyreduce:
   case 24:
 
 /* Line 1455 of yacc.c  */
-#line 127 "syntax.y"
+#line 125 "syntax.y"
     {
           if(checkNoDuplicate((yyvsp[(2) - (7)].str))==-1) printf("Erreur_Semantique, ligne %d, colonne %d, entite '%s' "
-                "(variable deja declaree)\n", yylineno, col, (yyvsp[(2) - (7)].str));
+                "(variable deja declaree)\n", yylineno, yycolumn, (yyvsp[(2) - (7)].str));
           updateCode((yyvsp[(2) - (7)].str), "Const");
           updateType((yyvsp[(2) - (7)].str), current_type);
       ;}
@@ -1615,84 +1614,84 @@ yyreduce:
   case 35:
 
 /* Line 1455 of yacc.c  */
-#line 153 "syntax.y"
+#line 151 "syntax.y"
     { if(checkDeclared((yyvsp[(1) - (4)].str))==-1) printf("Erreur_Semantique, ligne %d, colonne %d, entite '%s' "
-                "(variable non declaree)\n", yylineno, col, (yyvsp[(1) - (4)].str));;}
+                "(variable non declaree)\n", yylineno, yycolumn, (yyvsp[(1) - (4)].str));;}
     break;
 
   case 36:
 
 /* Line 1455 of yacc.c  */
-#line 156 "syntax.y"
+#line 154 "syntax.y"
     { if(checkDeclared((yyvsp[(1) - (7)].str))==-1) printf("Erreur_Semantique, ligne %d, colonne %d, entite '%s' "
-                "(variable non declaree)\n", yylineno, col, (yyvsp[(1) - (7)].str)); ;}
+                "(variable non declaree)\n", yylineno, yycolumn, (yyvsp[(1) - (7)].str)); ;}
     break;
 
   case 40:
 
 /* Line 1455 of yacc.c  */
-#line 181 "syntax.y"
+#line 179 "syntax.y"
     { if(checkDeclared((yyvsp[(2) - (11)].str))==-1) printf("Erreur_Semantique, ligne %d, colonne %d, entite '%s' "
-                "(variable non declaree)\n", yylineno, col, (yyvsp[(2) - (11)].str)); ;}
+                "(variable non declaree)\n", yylineno, yycolumn, (yyvsp[(2) - (11)].str)); ;}
     break;
 
   case 41:
 
 /* Line 1455 of yacc.c  */
-#line 187 "syntax.y"
+#line 185 "syntax.y"
     { if(checkDeclared((yyvsp[(3) - (5)].str))==-1) printf("Erreur_Semantique, ligne %d, colonne %d, entite '%s' "
-                "(variable non declaree)\n", yylineno, col, (yyvsp[(3) - (5)].str)); ;}
+                "(variable non declaree)\n", yylineno, yycolumn, (yyvsp[(3) - (5)].str)); ;}
     break;
 
   case 47:
 
 /* Line 1455 of yacc.c  */
-#line 206 "syntax.y"
+#line 204 "syntax.y"
     { (yyval.str) = "expr"; ;}
     break;
 
   case 48:
 
 /* Line 1455 of yacc.c  */
-#line 207 "syntax.y"
+#line 205 "syntax.y"
     { (yyval.str) = "expr"; ;}
     break;
 
   case 49:
 
 /* Line 1455 of yacc.c  */
-#line 208 "syntax.y"
+#line 206 "syntax.y"
     { (yyval.str) = "expr"; ;}
     break;
 
   case 50:
 
 /* Line 1455 of yacc.c  */
-#line 209 "syntax.y"
+#line 207 "syntax.y"
     { (yyval.str) = "expr"; ;}
     break;
 
   case 51:
 
 /* Line 1455 of yacc.c  */
-#line 210 "syntax.y"
+#line 208 "syntax.y"
     { (yyval.str) = "expr"; ;}
     break;
 
   case 52:
 
 /* Line 1455 of yacc.c  */
-#line 211 "syntax.y"
+#line 209 "syntax.y"
     { (yyval.str) = (yyvsp[(2) - (3)].str); ;}
     break;
 
   case 53:
 
 /* Line 1455 of yacc.c  */
-#line 213 "syntax.y"
+#line 211 "syntax.y"
     {
           if(checkDeclared((yyvsp[(1) - (1)].str))==-1) printf("Erreur_Semantique, ligne %d, colonne %d, entite '%s' "
-                "(variable non declaree)\n", yylineno, col, (yyvsp[(1) - (1)].str));
+                "(variable non declaree)\n", yylineno, yycolumn, (yyvsp[(1) - (1)].str));
           (yyval.str) = (yyvsp[(1) - (1)].str);
       ;}
     break;
@@ -1700,10 +1699,10 @@ yyreduce:
   case 54:
 
 /* Line 1455 of yacc.c  */
-#line 219 "syntax.y"
+#line 217 "syntax.y"
     {
           if(checkDeclared((yyvsp[(1) - (4)].str))==-1) printf("Erreur_Semantique, ligne %d, colonne %d, entite '%s' "
-                "(variable non declaree)\n", yylineno, col, (yyvsp[(1) - (4)].str));
+                "(variable non declaree)\n", yylineno, yycolumn, (yyvsp[(1) - (4)].str));
           (yyval.str) = (yyvsp[(1) - (4)].str);
       ;}
     break;
@@ -1711,119 +1710,119 @@ yyreduce:
   case 55:
 
 /* Line 1455 of yacc.c  */
-#line 224 "syntax.y"
+#line 222 "syntax.y"
     { (yyval.str) = "integer"; ;}
     break;
 
   case 56:
 
 /* Line 1455 of yacc.c  */
-#line 225 "syntax.y"
+#line 223 "syntax.y"
     { (yyval.str) = "float";   ;}
     break;
 
   case 57:
 
 /* Line 1455 of yacc.c  */
-#line 226 "syntax.y"
+#line 224 "syntax.y"
     { (yyval.str) = "integer"; ;}
     break;
 
   case 58:
 
 /* Line 1455 of yacc.c  */
-#line 227 "syntax.y"
+#line 225 "syntax.y"
     { (yyval.str) = "integer"; ;}
     break;
 
   case 59:
 
 /* Line 1455 of yacc.c  */
-#line 228 "syntax.y"
+#line 226 "syntax.y"
     { (yyval.str) = "float"; ;}
     break;
 
   case 60:
 
 /* Line 1455 of yacc.c  */
-#line 229 "syntax.y"
+#line 227 "syntax.y"
     { (yyval.str) = "float"; ;}
     break;
 
   case 61:
 
 /* Line 1455 of yacc.c  */
-#line 233 "syntax.y"
+#line 231 "syntax.y"
     { (yyval.str) = "cond"; ;}
     break;
 
   case 62:
 
 /* Line 1455 of yacc.c  */
-#line 234 "syntax.y"
+#line 232 "syntax.y"
     { (yyval.str) = "cond"; ;}
     break;
 
   case 63:
 
 /* Line 1455 of yacc.c  */
-#line 235 "syntax.y"
+#line 233 "syntax.y"
     { (yyval.str) = "cond"; ;}
     break;
 
   case 64:
 
 /* Line 1455 of yacc.c  */
-#line 236 "syntax.y"
+#line 234 "syntax.y"
     { (yyval.str) = "cond"; ;}
     break;
 
   case 65:
 
 /* Line 1455 of yacc.c  */
-#line 237 "syntax.y"
+#line 235 "syntax.y"
     { (yyval.str) = "cond"; ;}
     break;
 
   case 66:
 
 /* Line 1455 of yacc.c  */
-#line 238 "syntax.y"
+#line 236 "syntax.y"
     { (yyval.str) = "cond"; ;}
     break;
 
   case 67:
 
 /* Line 1455 of yacc.c  */
-#line 239 "syntax.y"
+#line 237 "syntax.y"
     { (yyval.str) = "cond"; ;}
     break;
 
   case 68:
 
 /* Line 1455 of yacc.c  */
-#line 240 "syntax.y"
+#line 238 "syntax.y"
     { (yyval.str) = "cond"; ;}
     break;
 
   case 69:
 
 /* Line 1455 of yacc.c  */
-#line 241 "syntax.y"
+#line 239 "syntax.y"
     { (yyval.str) = "cond"; ;}
     break;
 
   case 70:
 
 /* Line 1455 of yacc.c  */
-#line 242 "syntax.y"
+#line 240 "syntax.y"
     { (yyval.str) = (yyvsp[(2) - (3)].str);     ;}
     break;
 
 
 
 /* Line 1455 of yacc.c  */
-#line 1827 "syntax.tab.c"
+#line 1826 "syntax.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -2035,7 +2034,7 @@ yyreturn:
 
 
 /* Line 1675 of yacc.c  */
-#line 245 "syntax.y"
+#line 243 "syntax.y"
 
 
 

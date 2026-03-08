@@ -1,6 +1,6 @@
-BeginProject
 %% Ceci est un commentaire sur une seule ligne
-Setup:
+BeginProject m1iv;
+Setup :
 define y_123456789153:float;
 define a | b | c: integer;
 define d : integer = 10;
