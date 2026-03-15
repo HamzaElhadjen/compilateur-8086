@@ -219,3 +219,15 @@ int checkUndeclared(char entite[]) {
     }
     return 1;
 }
+
+/// Check if index is within bounds for table 
+int checkTableIndex(char entite[], int idx) {
+    int i = rechercherIdf(entite);
+    
+    int size = atoi(TS[i].val);
+    if (idx <+ 0 || idx > size) {
+        return -1;
+    }
+
+    return 1; 
+}

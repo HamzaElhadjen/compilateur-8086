@@ -68,7 +68,6 @@ commentaireMultiLine  "//*"(.|\n)*"*//"
                  if(yyleng > 14) {printf("erreur lexicale : idf trop long\n");} 
                     else {  yycolumn += yyleng;
                             Rechercher(yytext,"IDF","","",1);
-                            printf("DEBUG: Added identifier to TS: %s\n", yytext);
                             return IDF;}}
 {integer} {
     char temp[50];

@@ -975,12 +975,11 @@ YY_RULE_SETUP
                  if(yyleng > 14) {printf("erreur lexicale : idf trop long\n");} 
                     else {  yycolumn += yyleng;
                             Rechercher(yytext,"IDF","","",1);
-                            printf("DEBUG: Added identifier to TS: %s\n", yytext);
                             return IDF;}}
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
-#line 73 "lexical.l"
+#line 72 "lexical.l"
 {
     char temp[50];
 
@@ -1004,7 +1003,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 45:
 YY_RULE_SETUP
-#line 93 "lexical.l"
+#line 92 "lexical.l"
 {
     char temp[50];
     
@@ -1022,7 +1021,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 46:
 YY_RULE_SETUP
-#line 107 "lexical.l"
+#line 106 "lexical.l"
 {
                 yycolumn += yyleng;
                 yylval.str = strdup(yytext);
@@ -1031,35 +1030,35 @@ YY_RULE_SETUP
 	YY_BREAK
 case 47:
 YY_RULE_SETUP
-#line 114 "lexical.l"
+#line 113 "lexical.l"
 {}
 	YY_BREAK
 case 48:
 YY_RULE_SETUP
-#line 115 "lexical.l"
+#line 114 "lexical.l"
 {}
 	YY_BREAK
 case 49:
 YY_RULE_SETUP
-#line 118 "lexical.l"
+#line 117 "lexical.l"
 { yycolumn += yyleng;}
 	YY_BREAK
 case 50:
 YY_RULE_SETUP
-#line 119 "lexical.l"
+#line 118 "lexical.l"
 { yycolumn=1 ;}
 	YY_BREAK
 case 51:
 YY_RULE_SETUP
-#line 120 "lexical.l"
+#line 119 "lexical.l"
 { printf("Erreur lexicale a la ligne %d et colonne %d: '%s'", yylineno,yycolumn, yytext); }
 	YY_BREAK
 case 52:
 YY_RULE_SETUP
-#line 122 "lexical.l"
+#line 121 "lexical.l"
 ECHO;
 	YY_BREAK
-#line 1063 "lex.yy.c"
+#line 1062 "lex.yy.c"
 			case YY_STATE_EOF(INITIAL):
 				yyterminate();
 
@@ -1943,5 +1942,5 @@ int main()
 	return 0;
 	}
 #endif
-#line 122 "lexical.l"
+#line 121 "lexical.l"
 

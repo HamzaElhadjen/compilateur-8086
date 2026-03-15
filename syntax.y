@@ -71,6 +71,7 @@ PARTIE_DEC: DECLARATION PARTIE_DEC
 DECLARATION
     : DEC_VAR
     | DEC_CONST
+    | DEC_TAB
     ;
 
 DEC_VAR
@@ -102,6 +103,36 @@ DEC_VAR
 
             
         }
+    ;
+
+DEC_CONST
+    : mc_const IDF DPT TYPE EGAL VALEUR PVG {
+        // check double declaration
+        if(updateType($2, current_type) == -1)
+            printf("Erreur semantique ligne %d : double declaration de %s\n", yylineno, $2);
+        // check de type mismatch
+        else if(checkTypeMismatch(current_type, $6 .type)){
+                printf("Erreur semantique ligne %d : incompatibilite de type pour %s\n",
+                    yylineno, $2);
+            }else updateVal($2, $6 .value); 
+    }
+;
+
+DEC_TAB
+    : mc_define IDF DPT CROV TYPE PVG CST_INT CRMF PVG
+      {
+          if(updateType($2, current_type) == -1) printf("Erreur semantique ligne %d : double declaration de %s\n", yylineno, $2);
+            else if ($7 <= 0)
+              printf("Erreur_Semantique, ligne %d, taille du tableau '%s' doit etre > 0\n",
+                     yylineno, $2);
+            else{
+                char tailleStr[20];
+                sprintf(tailleStr, "%d", $7);
+                updateCode($2, "Tableau");
+                updateType($2, current_type);
+                updateVal($2, tailleStr);
+            }
+      }
     ;
 
 
@@ -136,18 +167,7 @@ VALEUR
     }
 ;
 
-DEC_CONST
-    : mc_const IDF DPT TYPE EGAL VALEUR PVG {
-        // check double declaration
-        if(updateType($2, current_type) == -1)
-            printf("Erreur semantique ligne %d : double declaration de %s\n", yylineno, $2);
-        // check de type mismatch
-        else if(checkTypeMismatch(current_type, $6 .type)){
-                printf("Erreur semantique ligne %d : incompatibilite de type pour %s\n",
-                    yylineno, $2);
-            }else updateVal($2, $6 .value); 
-    }
-;
+
 
 PARTIE_INSTR: LISTE_INSTR|;
 
@@ -168,7 +188,8 @@ INSTRUCTION
 INST_AFF
     : IDF AFF EXPR PVG
     { if( checkUndeclared($1)==-1 ) printf("Erreur semantique ligne %d : variable non declaree %s\n", yylineno, $1);}
-    | IDF CROV EXPR CRMF AFF EXPR PVG { if( checkUndeclared($1)==-1 ) printf("Erreur semantique ligne %d : variable non declaree %s\n", yylineno, $1);}
+    | IDF CROV CST_INT CRMF AFF EXPR PVG { if( checkUndeclared($1)==-1 ) printf("Erreur semantique ligne %d : variable non declaree %s\n", yylineno, $1);
+                                            else{ if(checkTableIndex($1,$3) == -1) printf("Erreur semantique ligne %d: index %d hors limites pour le tableau '%s'.\n",yylineno, $3, $1);}}
     ;
 
 
@@ -191,9 +212,7 @@ INST_LOOP_WHILE
     ;
 
 INST_FOR
-    : mc_for IDF mc_in VALEUR mc_to VALEUR { if( checkUndeclared($2)==-1 ) printf("Erreur semantique ligne %d : variable non declaree %s\n", yylineno, $2);}
-      ACCO PARTIE_INSTR ACCF
-      mc_endfor PVG
+    : mc_for IDF mc_in CST_INT mc_to CST_INT ACCO PARTIE_INSTR ACCF mc_endfor PVG { if( checkUndeclared($2)==-1 ) printf("Erreur semantique ligne %d : variable non declaree %s\n", yylineno, $2);}
     ;
 
 INST_IN
@@ -205,14 +224,11 @@ INST_OUT
     ;
 
 LISTE_OUT
-    : LISTE_OUT PIPE OUT_ARG
-    | OUT_ARG
+    : CHAINE IDF
+    | CHAINE
+    | IDF
     ;
 
-OUT_ARG
-    : CHAINE
-    | EXPR
-    ;
 
 EXPR
     : EXPR PLUS EXPR
@@ -222,7 +238,8 @@ EXPR
     | MINS EXPR
     | PARO EXPR PARF
     | IDF { if( checkUndeclared($1)==-1 ) printf("Erreur semantique ligne %d : variable non declaree %s\n", yylineno, $1);}
-    | IDF CROV EXPR CRMF { if( checkUndeclared($1)==-1 ) printf("Erreur semantique ligne %d : variable non declaree %s\n", yylineno, $1);}
+    | IDF CROV CST_INT CRMF { if( checkUndeclared($1)==-1 ) printf("Erreur semantique ligne %d : variable non declaree %s\n", yylineno, $1);
+                                else{ if(checkTableIndex($1,$3) == -1) printf("Erreur semantique ligne %d: index %s hors limites pour le tableau '%s'.\n",yylineno, $3, $1);}}
     | CST_INT
     | CST_FLOAT
 
