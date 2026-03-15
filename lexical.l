@@ -68,16 +68,42 @@ commentaireMultiLine  "//*"(.|\n)*"*//"
                  if(yyleng > 14) {printf("erreur lexicale : idf trop long\n");} 
                     else {  yycolumn += yyleng;
                             Rechercher(yytext,"IDF","","",1);
+                            printf("DEBUG: Added identifier to TS: %s\n", yytext);
                             return IDF;}}
-{integer}      { yylval.entier= atoi(yytext);
-                   if (yylval.entier > 32768 || yylval.entier < -32768) {
-                    printf("erreur lexicale à la ligne %d, colonne %d : le chiffre n'appartient pas à [-32765 , 32768 ]\n", yylineno, yycolumn);
-                    exit(1);
-                } else {
-                    yycolumn += yyleng;
-                    return CST_INT;
-                }}
-{float}        { yylval.numvrg= atof(yytext); yycolumn += yyleng;return CST_FLOAT;}
+{integer} {
+    char temp[50];
+
+    if (yytext[0] == '(') {
+        strncpy(temp, yytext + 1, yyleng - 2);
+        temp[yyleng - 2] = '\0';
+        yylval.entier = atoi(temp);
+    } else {
+        yylval.entier = atoi(yytext);
+    }
+
+    if (yylval.entier > 32768 || yylval.entier < -32768) {
+        printf("erreur lexicale à la ligne %d, colonne %d : le chiffre n'appartient pas à [-32768 , 32768]\n",
+               yylineno, yycolumn);
+        exit(1);
+    } else {
+        yycolumn += yyleng;
+        return CST_INT;
+    }
+}
+{float} {
+    char temp[50];
+    
+    if (yytext[0] == '(') {
+        strncpy(temp, yytext + 1, yyleng - 2);
+        temp[yyleng - 2] = '\0';
+        yylval.numvrg = atof(temp);
+    } else {
+        yylval.numvrg = atof(yytext);
+    }
+
+    yycolumn += yyleng;
+    return CST_FLOAT;
+}
 {chaine}    {
                 yycolumn += yyleng;
                 yylval.str = strdup(yytext);

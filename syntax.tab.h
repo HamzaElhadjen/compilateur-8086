@@ -83,10 +83,9 @@
      IDF = 299,
      mc_integer = 300,
      mc_float = 301,
-     CST_INT = 302,
-     CST_FLOAT = 303,
-     CHAINE = 304,
-     UMINUS = 305
+     CHAINE = 302,
+     CST_INT = 303,
+     CST_FLOAT = 304
    };
 #endif
 
@@ -97,16 +96,18 @@ typedef union YYSTYPE
 {
 
 /* Line 1676 of yacc.c  */
-#line 14 "syntax.y"
+#line 12 "syntax.y"
 
     int entier;
     float numvrg;
     char* str;
+    struct { char* ids[50]; int count; } idlist;
+    struct { char value[50]; char type[10]; } val;
 
 
 
 /* Line 1676 of yacc.c  */
-#line 110 "syntax.tab.h"
+#line 111 "syntax.tab.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */

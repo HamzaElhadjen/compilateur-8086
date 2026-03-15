@@ -153,33 +153,69 @@ void afficher()
 
 // Semantique
 
-int checkDeclared(char *name) {
-        if (rechercherIdf(name) == -1) return -1;
-        return 0;
-    }
-
-int checkNoDuplicate(char *name) {
-        int pos = rechercherIdf(name);
-        if (pos != -1 && strcmp(TS[pos].code, "IDF") != 0) return -1;
-        return 0;
-    }
+/// get the idf index
 int rechercherIdf(char entite[]) {
-    int i;
-    for (i = 0; i < 200; i++)
-        if (TS[i].state == 1 && strcmp(entite, TS[i].name) == 0)
-            return i;
+    int h = hash(entite,200);
+    int start = h;
+    while(TS[h].state != 0) {
+        if(strcmp(entite, TS[h].name) == 0)
+            return h;
+
+        h = (h+1) % 200;
+
+        if(h == start)
+            break;
+    }
     return -1;
 }
 
 
-void updateType(char entite[], char type[]) {
+/// affect a type to an IDF
+int updateType(char entite[], char type[]) {
     int i = rechercherIdf(entite);
-    if (i != -1) strcpy(TS[i].type, type);
+
+    if (i != -1 && strcmp(TS[i].type, "") == 0) {
+        strcpy(TS[i].type, type);
+        return 1;
+    }
+    return -1;
 }
 
-
-
+/// important for const
 void updateCode(char entite[], char code[]) {
     int i = rechercherIdf(entite);
     if (i != -1) strcpy(TS[i].code, code);
+}
+
+/// affect a value
+void updateVal(char entite[], char value[]){
+    int i = rechercherIdf(entite);
+    if (i != -1) {
+        strcpy(TS[i].val, value);
+    }
+}
+
+/// get current value
+int idf_value(char entite[]){
+    int i = rechercherIdf(entite);
+    if ( i != -1) return atoi(TS[i].val);
+    return -99999999; 
+}
+
+/// check type mismatch 
+int checkTypeMismatch(char declared[], char valueType[]) {
+    return strcmp(declared, valueType) == 0 ? 0 : 1;
+}
+
+
+// check underclared idfs
+int checkUndeclared(char entite[]) {
+    int i = rechercherIdf(entite); 
+    if (i == -1) {
+        return -1;
+    }
+    if (TS[i].type[0] == '\0') {
+        return -1;
+    }
+    return 1;
 }
