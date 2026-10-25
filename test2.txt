@@ -1,0 +1,14 @@
+BeginProject testio;
+Setup:
+define age : integer ;
+define score : integer ;
+Run:
+{
+INPUT(age);
+INPUT(score);
+age <- age + 1;
+OUTPUT(age);
+OUTPUT("message de fin");
+OUTPUT("votre score est:", score);
+}
+EndProject ;

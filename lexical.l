@@ -10,65 +10,67 @@ chaine      \"[^\"]*\"
 idf                   [a-z]([a-z0-9]|_[a-z0-9])*
 integer               \(([+-][0-9]+)\)|[0-9]+
 float                  \(([+-][0-9]+\.[0-9]+)\)|[0-9]+\.[0-9]+
-commentaireOneLine    %%.* 
-commentaireMultiLine  "//*"(.|\n)*"*//"
+commentaire    %%.* 
+commentaireplus  "//*"(.|\n)*"*//"
 
 %%
 
 
-";"           { Rechercher(yytext,"Separateur","","",3); yycolumn += yyleng; return PVG;}
-":"           { Rechercher(yytext,"Separateur","","",3); yycolumn += yyleng; return DPT;}
-"|"           { Rechercher(yytext,"Separateur","","",3); yycolumn += yyleng; return PIPE;}
-"{"           { Rechercher(yytext,"Separateur","","",3); yycolumn += yyleng; return ACCO;}
-"}"           { Rechercher(yytext,"Separateur","","",3); yycolumn += yyleng; return ACCF;}
-"["           { Rechercher(yytext,"Separateur","","",3); yycolumn += yyleng; return CROV;}
-"]"           { Rechercher(yytext,"Separateur","","",3); yycolumn += yyleng; return CRMF;}
-"("           { Rechercher(yytext,"Separateur","","",3); yycolumn += yyleng; return PARO;}
-")"           { Rechercher(yytext,"Separateur","","",3); yycolumn += yyleng; return PARF;}
+";"           { Rechercher(yytext,"Separateur","","",3); yycolumn += yyleng; return semicolon;}
+":"           { Rechercher(yytext,"Separateur","","",3); yycolumn += yyleng; return colon;}
+"|"           { Rechercher(yytext,"Separateur","","",3); yycolumn += yyleng; return pipe;}
+"{"           { Rechercher(yytext,"Separateur","","",3); yycolumn += yyleng; return lbrace;}
+"}"           { Rechercher(yytext,"Separateur","","",3); yycolumn += yyleng; return rbrace;}
+"["           { Rechercher(yytext,"Separateur","","",3); yycolumn += yyleng; return lbracket;}
+"]"           { Rechercher(yytext,"Separateur","","",3); yycolumn += yyleng; return rbracket;}
+"("           { Rechercher(yytext,"Separateur","","",3); yycolumn += yyleng; return lparen;}
+")"           { Rechercher(yytext,"Separateur","","",3); yycolumn += yyleng; return rparen;}
 
 
-"<-"          { Rechercher(yytext,"Separateur","","",3); yycolumn += yyleng; return AFF;}
-"+"           { Rechercher(yytext,"Separateur","","",3); yycolumn += yyleng; return PLUS;}
-"-"           { Rechercher(yytext,"Separateur","","",3); yycolumn += yyleng; return MINS;}
-"*"           { Rechercher(yytext,"Separateur","","",3); yycolumn += yyleng; return MULT;}
-"/"           { Rechercher(yytext,"Separateur","","",3); yycolumn += yyleng; return DIV;}
-"<="          { Rechercher(yytext,"Separateur","","",3); yycolumn += yyleng; return LEQ;}
-">="          { Rechercher(yytext,"Separateur","","",3); yycolumn += yyleng; return GEQ;}
-"<"           { Rechercher(yytext,"Separateur","","",3); yycolumn += yyleng; return LT;}
-">"           { Rechercher(yytext,"Separateur","","",3); yycolumn += yyleng; return GT;}
-"=="          { Rechercher(yytext,"Separateur","","",3); yycolumn += yyleng; return EQ;}
-"="           { Rechercher(yytext,"Separateur","","",3); yycolumn += yyleng; return EGAL;}
-"!="          { Rechercher(yytext,"Separateur","","",3); yycolumn += yyleng; return NEQ;}
+"<-"          { Rechercher(yytext,"Separateur","","",3); yycolumn += yyleng; return assign_arrow;}
+"+"           { Rechercher(yytext,"Separateur","","",3); yycolumn += yyleng; return plus;}
+"-"           { Rechercher(yytext,"Separateur","","",3); yycolumn += yyleng; return minus;}
+"*"           { Rechercher(yytext,"Separateur","","",3); yycolumn += yyleng; return multiply;}
+"/"           { Rechercher(yytext,"Separateur","","",3); yycolumn += yyleng; return divide;}
+"<="          { Rechercher(yytext,"Separateur","","",3); yycolumn += yyleng; return less_equal;}
+">="          { Rechercher(yytext,"Separateur","","",3); yycolumn += yyleng; return greater_equal;}
+"<"           { Rechercher(yytext,"Separateur","","",3); yycolumn += yyleng; return less_than;}
+">"           { Rechercher(yytext,"Separateur","","",3); yycolumn += yyleng; return greater_than;}
+"=="          { Rechercher(yytext,"Separateur","","",3); yycolumn += yyleng; return equal_equal;}
+"="           { Rechercher(yytext,"Separateur","","",3); yycolumn += yyleng; return equal;}
+"!="          { Rechercher(yytext,"Separateur","","",3); yycolumn += yyleng; return not_equal;}
+","           { Rechercher(yytext,"Separateur","","",3); yycolumn += yyleng; return comma; }
 
 
-
-"Setup"        { Rechercher(yytext,"Mot cle","","",2); yycolumn += yyleng; return mc_Setup;}
-"BeginProject" { Rechercher(yytext,"Mot cle","","",2); yycolumn += yyleng; return mc_BeginProject;}
-"Run"          { Rechercher(yytext,"Mot cle","","",2); yycolumn += yyleng; return mc_Run;}
-"EndProject"   { Rechercher(yytext,"Mot cle","","",2); yycolumn += yyleng; return mc_EndProject;}
-"define"       { Rechercher(yytext,"Mot cle","","",2); yycolumn += yyleng; return mc_define; }
-"const"        { Rechercher(yytext,"Mot cle","","",2); yycolumn += yyleng; return mc_const;}
-"if"           { Rechercher(yytext,"Mot cle","","",2); yycolumn += yyleng; return mc_if;}
-"then"         { Rechercher(yytext,"Mot cle","","",2); yycolumn += yyleng; return mc_then;}
-"else"         { Rechercher(yytext,"Mot cle","","",2); yycolumn += yyleng; return mc_else; }
-"endIf"        { Rechercher(yytext,"Mot cle","","",2); yycolumn += yyleng; return mc_endIf; }
-"loop while"   { Rechercher(yytext,"Mot cle","","",2); yycolumn += yyleng; return mc_loopwhile;}
-"endloop"      { Rechercher(yytext,"Mot cle","","",2); yycolumn += yyleng; return mc_endloop;}
-"for"          { Rechercher(yytext,"Mot cle","","",2); yycolumn += yyleng; return mc_for; }
-"in"           { Rechercher(yytext,"Mot cle","","",2); yycolumn += yyleng; return mc_in;}
-"to"           { Rechercher(yytext,"Mot cle","","",2); yycolumn += yyleng; return mc_to; }
-"endfor"       { Rechercher(yytext,"Mot cle","","",2); yycolumn += yyleng; return mc_endfor;}
-"out"          { Rechercher(yytext,"Mot cle","","",2); yycolumn += yyleng; return mc_out;}
-"AND"          { Rechercher(yytext,"Mot cle","","",2); yycolumn += yyleng; return mc_AND; }
-"OR"           { Rechercher(yytext,"Mot cle","","",2); yycolumn += yyleng; return mc_OR;}
-"integer"      { Rechercher(yytext,"Mot cle","","",2); yycolumn += yyleng; return mc_integer;}
-"float"        { Rechercher(yytext,"Mot cle","","",2); yycolumn += yyleng; return mc_float;}
+"Setup"        { Rechercher(yytext,"Mot cle","","",2); yycolumn += yyleng; return kw_setup;}
+"BeginProject" { Rechercher(yytext,"Mot cle","","",2); yycolumn += yyleng; return kw_begin_project;}
+"Run"          { Rechercher(yytext,"Mot cle","","",2); yycolumn += yyleng; return kw_run;}
+"EndProject"   { Rechercher(yytext,"Mot cle","","",2); yycolumn += yyleng; return kw_end_project;}
+"define"       { Rechercher(yytext,"Mot cle","","",2); yycolumn += yyleng; return kw_define; }
+"const"        { Rechercher(yytext,"Mot cle","","",2); yycolumn += yyleng; return kw_const;}
+"if"           { Rechercher(yytext,"Mot cle","","",2); yycolumn += yyleng; return kw_if;}
+"then"         { Rechercher(yytext,"Mot cle","","",2); yycolumn += yyleng; return kw_then;}
+"else"         { Rechercher(yytext,"Mot cle","","",2); yycolumn += yyleng; return kw_else; }
+"endIf"        { Rechercher(yytext,"Mot cle","","",2); yycolumn += yyleng; return kw_end_if; }
+"loop while"   { Rechercher(yytext,"Mot cle","","",2); yycolumn += yyleng; return kw_loop_while;}
+"endloop"      { Rechercher(yytext,"Mot cle","","",2); yycolumn += yyleng; return kw_end_loop;}
+"for"          { Rechercher(yytext,"Mot cle","","",2); yycolumn += yyleng; return kw_for; }
+"in"           { Rechercher(yytext,"Mot cle","","",2); yycolumn += yyleng; return kw_in;}
+"to"           { Rechercher(yytext,"Mot cle","","",2); yycolumn += yyleng; return kw_to; }
+"endfor"       { Rechercher(yytext,"Mot cle","","",2); yycolumn += yyleng; return kw_end_for;}
+"OUTPUT"       { Rechercher(yytext,"Mot cle","","",2); yycolumn += yyleng; return kw_out;}
+"INPUT"        { Rechercher(yytext,"Mot cle","","",2); yycolumn += yyleng; return kw_input;}
+"AND"          { Rechercher(yytext,"Mot cle","","",2); yycolumn += yyleng; return kw_and; }
+"OR"           { Rechercher(yytext,"Mot cle","","",2); yycolumn += yyleng; return kw_or;}
+"NOT"          { Rechercher(yytext,"Mot cle","","",2); yycolumn += yyleng; return kw_not;}
+"integer"      { Rechercher(yytext,"Mot cle","","",2); yycolumn += yyleng; return kw_integer;}
+"float"        { Rechercher(yytext,"Mot cle","","",2); yycolumn += yyleng; return kw_float;}
 
 {idf}          { yylval.str = strdup(yytext); 
                  if(yyleng > 14) {printf("erreur lexicale : idf trop long\n");} 
                     else {  yycolumn += yyleng;
                             Rechercher(yytext,"IDF","","",1);
-                            return IDF;}}
+                return identifier;}}
 {integer} {
     char temp[50];
 
@@ -80,19 +82,19 @@ commentaireMultiLine  "//*"(.|\n)*"*//"
         yylval.entier = atoi(yytext);
     }
 
-    if (yylval.entier > 32768 || yylval.entier < -32768) {
-        printf("erreur lexicale à la ligne %d, colonne %d : le chiffre n'appartient pas à [-32768 , 32768]\n",
+    if (yylval.entier > 32767 || yylval.entier < -32768) {
+        printf("erreur lexicale a la ligne %d, colonne %d : le chiffre n'appartient pas a [-32768 , 32767]\n",
                yylineno, yycolumn);
         exit(1);
     } else {
         yycolumn += yyleng;
-        return CST_INT;
+        return int_literal;
     }
 }
 {float} {
     char temp[50];
     
-    if (yytext[0] == '(') {
+    if (yytext[0] == '(' ) {
         strncpy(temp, yytext + 1, yyleng - 2);
         temp[yyleng - 2] = '\0';
         yylval.numvrg = atof(temp);
@@ -101,17 +103,17 @@ commentaireMultiLine  "//*"(.|\n)*"*//"
     }
 
     yycolumn += yyleng;
-    return CST_FLOAT;
+    return float_literal;
 }
 {chaine}    {
                 yycolumn += yyleng;
                 yylval.str = strdup(yytext);
-                return CHAINE;
+                return string_literal;
             }
 
 
-{commentaireOneLine}   {}
-{commentaireMultiLine} {}
+{commentaire}   {}
+{commentaireplus} {}
 
 
 [ \t]+        { yycolumn += yyleng;}

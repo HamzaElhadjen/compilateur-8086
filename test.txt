@@ -1,43 +1,26 @@
-%% Ceci est un commentaire sur une seule ligne
-//*
-
-
-
-
-
-
-
-
-*//
-BeginProject m1iv;
+BeginProject m1;
 Setup:
-define y_12345 : float ;
-define a | b | c  : integer;
-define d : integer = 99;
+define w : float ;
+define a | b | c : integer;
 define z : float ;
-const e : integer=5;
+const e : integer = 5;
 define tab : [integer ;20];
-
-
 Run:
 {
-a <- 15;
+i <- 15;
 if (a +2 > b) then:
 {
-z <- j - 5.5;
 } else{ z <- z-1 ;
 } endIf ;
-
 loop while (x<10)
 { x <-x + 1;
 } endloop;
-
 for i in 1 to 10 {
-tab[21] <- j * i;
+tab[19] <- j * i;
 }
 endfor;
-in(username );
-out(username);
+INPUT(username);
+OUTPUT(username);
 }
 
 EndProject ;

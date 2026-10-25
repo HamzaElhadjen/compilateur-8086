@@ -1,0 +1,15 @@
+BeginProject testopt;
+Setup:
+define x : integer ;
+define y : integer ;
+define z : integer ;
+Run:
+{
+x <- 2 + 3;
+y <- x + 0;
+z <- y * 1;
+x <- 5 * 0;
+z <- (2 + 3) * (4 - 1);
+y <- x * 2;
+}
+EndProject ;
